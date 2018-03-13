@@ -124,6 +124,9 @@ void IOCP::ProcessPacket(unsigned char *packet)
 		ProcessNotifyExistRoomPacket(packet);
 		break;
 	}
+	case ROOM_LIST: {
+		ProcessRoomListPacket(packet);
+	}
 	default:
 		break;
 	}
@@ -148,7 +151,7 @@ void IOCP::ProcessCreateRoomPacket(unsigned char *packet)
 	menu_enable = true;
 }
 
-// 이미 존재하는 방 패킷 처리
+// 존재하는 방인지 확인하는 패킷 처리
 void IOCP::ProcessNotifyExistRoomPacket(unsigned char *packet)
 {
 	Notify_Exist_Room *exist_packet = reinterpret_cast<Notify_Exist_Room*>(packet);
@@ -160,15 +163,15 @@ void IOCP::ProcessNotifyExistRoomPacket(unsigned char *packet)
 		std::cout << "[ " << exist_packet->roomIndex << "번 방에 입장하시겠습니까? (Y/N) : ";
 		std::cin >> enter_choice;
 
-		if (strcmp(&enter_choice, "Y")) {
-			
+		if (strcmp(&enter_choice, "Y")) {			// 채팅방 입장 O
+			SendEnterRoom(exist_packet->roomIndex);
 		}
-		else if(strcmp(&enter_choice, "N")){
-
+		else if(strcmp(&enter_choice, "N")){		// 채팅방 입장 X
+			return;
 		}
 		else
 		{
-
+			printf("잘 못된 문자입니다.\n");
 		}
 
 	}
@@ -176,14 +179,29 @@ void IOCP::ProcessNotifyExistRoomPacket(unsigned char *packet)
 		std::cout << "[ " << exist_packet->roomIndex << "번 방을 생성하였습니다. ]" << std::endl;
 		std::cout << "[ " << exist_packet->roomIndex << "번 방에 입장하였습니다. ]" << std::endl << std::endl;
 		
-		Room_Chatting chatting_packet;
-
-		std::cout << "보낼 메시지 : ";
-		std::cin >> chatting_packet.message;
-		SendRoomChatting(chatting_packet.message, exist_packet->roomIndex);
+		ChattingMenu(exist_packet->roomIndex);
 	}
 
-	menu_enable = true;
+	//menu_enable = true;
+}
+
+void IOCP::ProcessRoomListPacket(unsigned char * packet)
+{
+	Room_List *list_packet = reinterpret_cast<Room_List*>(packet);
+
+	if (list_packet->roomCnt == 0)
+	{
+		std::cout << "생성된 방이 없습니다." << std::endl;
+		return;
+	}
+
+	std::cout << "========== 채팅방 리스트 ==========" << std::endl;
+	
+	//printf("[ ")
+	for (int i = 0; i < list_packet->roomCnt; ++i)
+	{
+		std::cout << "[ "<< list_packet->roomList[i] << " ] ,";
+	}
 }
 
 int IOCP::WsaRecv()
@@ -277,6 +295,25 @@ void IOCP::SendRoomChatting(char* message, int room)
 	//menu_enable = true;
 }
 
+void IOCP::SendEnterRoom(int room)
+{
+	DWORD iobyte = 0;
+	Enter_Room *enter_packet = reinterpret_cast<Enter_Room *>(send_buffer);
+	enter_packet->type = ENTER_ROOM;
+	enter_packet->size = sizeof(Enter_Room);
+	enter_packet->id = my_id;
+	enter_packet->roomIndex = room;
+
+	send_wsabuf.len = sizeof(*enter_packet);
+	int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+
+	if (SOCKET_ERROR == ret) {
+		if (ERROR_IO_PENDING != WSAGetLastError()) {
+			err_display("WSASend() Error! : ", WSAGetLastError());
+		}
+	}
+}
+
 void IOCP::CloseSocket()
 {
 	closesocket(g_socket);
@@ -302,6 +339,7 @@ void IOCP::err_display(char *msg, int err_no)
 void IOCP::SetMenu()
 {
 	int choice = 0;
+	int room=0;
 
 	while (1)
 	{
@@ -336,8 +374,7 @@ void IOCP::SetMenu()
 				std::cout << channel << "번 채널로 이동했습니다." << std::endl;
 				break;
 			case ROOM_CREATE:
-				system("cls");
-				int room;
+				system("cls");				
 				printf("몇 번방을 만드시겠습니까? \n");
 				std::cin >> room;
 
@@ -349,10 +386,11 @@ void IOCP::SetMenu()
 			case IN_ROOM_USER_LIST:
 				//system("cls");
 				break;
-			case ENTER_ROOM:
-				int room;
-				std::cout<<"몇 번방으로 입장하시겠습니까? "
-				//system("cls");
+			case ENTER_ROOM_INIT:
+				system("cls");
+				SendEnterRoom(room);
+				std::cout << "몇 번방으로 입장하시겠습니까? ";
+				std::cin >> room;
 				break;
 			case EXIT_SERVER:
 				closesocket(g_socket);
@@ -361,5 +399,17 @@ void IOCP::SetMenu()
 				break;
 			}
 		}
+	}
+}
+
+void IOCP::ChattingMenu(int roomIndex)
+{
+	Room_Chatting chatting_packet;
+
+	while (true)
+	{
+		std::cout << "보낼 메시지 : ";
+		std::cin >> chatting_packet.message;
+		SendRoomChatting(chatting_packet.message, roomIndex);
 	}
 }

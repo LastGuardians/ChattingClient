@@ -55,6 +55,7 @@ public:
 	void		ProcessRoomMovePacket(unsigned char *packet);
 	void		ProcessRoomUserListPacket(unsigned char *packet);
 	void		ProcessNotifyExistRoomPacket(unsigned char *packet);
+	void		ProcessRoomListPacket(unsigned char *packet);
 
 	int			WsaRecv();
 	void		SendPacket(unsigned char *packet);
@@ -63,6 +64,7 @@ public:
 	void		SendRoomMovePacket(unsigned char *packet);
 	void		SendRoomUserListPacket(unsigned char *packet);
 	void		SendRoomChatting(char* message, int room);
+	void		SendEnterRoom(int room);
 
 	void				WorkerThread();
 	DWORD WINAPI		RecvMsg(void * arg);
@@ -71,5 +73,6 @@ public:
 
 	void		err_display(char *msg, int err_no);
 	void		SetMenu();
+	void		ChattingMenu(int roomIndex);
 };
 
