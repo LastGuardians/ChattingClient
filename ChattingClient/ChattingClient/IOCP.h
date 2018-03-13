@@ -45,19 +45,24 @@ private:
 
 public:
 	void		ServerConnect();
+	void		RecvThread();
+	int			Recvn(SOCKET s, char* buf, int len, int flags);
+
 	int			PacketRessembly(DWORD packetSize);
 	void		ProcessPacket(unsigned char *packet);
 	void		ProcessEneterChannelPacket(unsigned char *packet);
-	void		ProcessRoomCreatePacket(unsigned char *packet);
+	void		ProcessCreateRoomPacket(unsigned char *packet);
 	void		ProcessRoomMovePacket(unsigned char *packet);
 	void		ProcessRoomUserListPacket(unsigned char *packet);
+	void		ProcessNotifyExistRoomPacket(unsigned char *packet);
 
 	int			WsaRecv();
 	void		SendPacket(unsigned char *packet);
-	void		SendChannelMovePacket(int room);
-	void		SendRoomCreatePacket(unsigned char *packet);
+	void		SendChannelMovePacket(int channel);
+	void		SendCreateRoomPacket(int room);
 	void		SendRoomMovePacket(unsigned char *packet);
 	void		SendRoomUserListPacket(unsigned char *packet);
+	void		SendRoomChatting(char* message, int room);
 
 	void				WorkerThread();
 	DWORD WINAPI		RecvMsg(void * arg);

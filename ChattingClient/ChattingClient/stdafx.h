@@ -33,9 +33,11 @@ enum MENU_SELECT
 	ROOM_CREATE = 2,
 	ROOM_MOVE = 3,
 	IN_ROOM_USER_LIST = 4,
-	EXIT = 5
+	ENTER_ROOM = 5,
+	EXIT_SERVER = 10
 };
 
-#include "C:\Users\song\Documents\Visual Studio 2015\Projects\ChattingServer\ChattingServer\protocol.h"
+//#include "C:\Users\user\Documents\ChattingClient\ChattingServer\ChattingServer\protocol.h"
+#include "C:\Users\songyikim\Source\Repos\ChattingServer\ChattingServer\protocol.h"
 #include "User.h"
 #include "IOCP.h"

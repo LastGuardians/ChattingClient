@@ -26,9 +26,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\ChattingServer\ChattingServer\protocol.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="User.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -36,6 +33,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="IOCP.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ChattingServer\ChattingServer\protocol.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
