@@ -87,7 +87,7 @@ void IOCP::RecvThread()
 
 	while (true)
 	{
-		//std::cout << "recv thread" << std::endl;
+		std::cout << "recv thread" << std::endl;
 		//retval = recv(g_socket, buffer, sizeof(buffer), ioflag);
 		//retval = Recvn(g_socket, buffer, retval, 0);
 		retval = WSARecv(g_socket, &recv_wsabuf, 1, &iobyte, &ioflag, NULL, NULL);
@@ -126,6 +126,7 @@ void IOCP::ProcessPacket(unsigned char *packet)
 	}
 	case ROOM_LIST: {
 		ProcessRoomListPacket(packet);
+		break;
 	}
 	default:
 		break;
@@ -155,7 +156,7 @@ void IOCP::ProcessCreateRoomPacket(unsigned char *packet)
 void IOCP::ProcessNotifyExistRoomPacket(unsigned char *packet)
 {
 	Notify_Exist_Room *exist_packet = reinterpret_cast<Notify_Exist_Room*>(packet);
-	char enter_choice;
+	char* enter_choice;
 
 	printf("\n");
 	if (exist_packet->exist == true) {
@@ -163,10 +164,12 @@ void IOCP::ProcessNotifyExistRoomPacket(unsigned char *packet)
 		std::cout << "[ " << exist_packet->roomIndex << "번 방에 입장하시겠습니까? (Y/N) : ";
 		std::cin >> enter_choice;
 
-		if (strcmp(&enter_choice, "Y")) {			// 채팅방 입장 O
+		if (strcmp(enter_choice, "Y")) {			// 채팅방 입장 O
 			SendEnterRoom(exist_packet->roomIndex);
+			ChattingMenu(exist_packet->roomIndex);
 		}
-		else if(strcmp(&enter_choice, "N")){		// 채팅방 입장 X
+		else if(strcmp(enter_choice, "N")){		// 채팅방 입장 X
+			menu_enable = true;
 			return;
 		}
 		else
@@ -349,9 +352,9 @@ void IOCP::SetMenu()
 			std::cout << "======================================" << std::endl;
 			std::cout << "1. 채널 이동" << std::endl;
 			std::cout << "2. 채팅룸 개설" << std::endl;
-			std::cout << "3. 채팅룸 이동" << std::endl;
+			std::cout << "3. 채팅룸 입장" << std::endl;
 			std::cout << "4. 채팅룸 안에 있는 유저 목록 보기" << std::endl;
-			std::cout << "5. 채팅룸 입장" << std::endl;
+			std::cout << "5. 채팅룸 이동" << std::endl;
 			std::cout << "10. 종료" << std::endl;
 			std::cout << "======================================" << std::endl;
 
@@ -361,14 +364,15 @@ void IOCP::SetMenu()
 			switch (choice)
 			{
 			case CHANNEL_MOVE:
-				system("cls");
+				//system("cls");
 				int channel;
 				std::cout << std::endl;
 				std::cout << "몇번 채널로 이동하시겠습니까? (0~4 선택) : " << std::endl;
 				std::cin >> channel;
 				if (channel > 4 || channel < 0) {
-					printf("채널을 잘못 선택하셨습니다.\n");
-					continue;
+					printf("채널을 잘못 선택했습니다.\n");
+					menu_enable = true;
+					break;
 				}
 				SendChannelMovePacket(channel);
 				std::cout << channel << "번 채널로 이동했습니다." << std::endl;
@@ -380,18 +384,19 @@ void IOCP::SetMenu()
 
 				SendCreateRoomPacket(room);
 				break;
-			case ROOM_MOVE:
-				system("cls");
-				break;
-			case IN_ROOM_USER_LIST:
-				//system("cls");
-				break;
 			case ENTER_ROOM_INIT:
 				system("cls");
 				SendEnterRoom(room);
 				std::cout << "몇 번방으로 입장하시겠습니까? ";
 				std::cin >> room;
 				break;
+			case IN_ROOM_USER_LIST:
+				//system("cls");
+				break;
+			case ROOM_MOVE:
+				system("cls");
+				break;	
+		
 			case EXIT_SERVER:
 				closesocket(g_socket);
 				exit(-1);
