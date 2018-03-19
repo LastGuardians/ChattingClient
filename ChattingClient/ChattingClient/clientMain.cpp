@@ -2,5 +2,5 @@
 
 int main()
 {
-	IOCP iocp;
+	ChattingClient client;
 }

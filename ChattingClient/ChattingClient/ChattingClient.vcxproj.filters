@@ -21,7 +21,7 @@
     <ClCompile Include="User.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="IOCP.cpp">
+    <ClCompile Include="ChattingClient.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,10 +32,10 @@
     <ClInclude Include="stdafx.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="IOCP.h">
+    <ClInclude Include="..\..\..\ChattingServer\ChattingServer\protocol.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ChattingServer\ChattingServer\protocol.h">
+    <ClInclude Include="ChattingClient.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
