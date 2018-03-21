@@ -33,18 +33,17 @@ private:
 
 	int				my_id;
 
-	/*WSABUF			dataBuf;
-	char			message[1024] = { 0, };
-	int				sendBytes = 0;
-	int				recvBytes = 0;*/
-
 	HANDLE			handle;
 	HANDLE			m_hiocp = { 0 };
 	bool			m_b_server_shut_down = { false };
 	bool			server_connected = { false };
+	bool			isQuit = { false };
+	bool			recv_start = { false };
+
 
 public:
-	void		ServerConnect();
+	bool		ServerConnect();
+	void		Run();
 	void		RecvThread();
 	int			Recvn(SOCKET s, char* buf, int len, int flags);
 
@@ -57,14 +56,16 @@ public:
 	void		ProcessNotifyExistRoomPacket(unsigned char *packet);
 	void		ProcessRoomListPacket(unsigned char *packet);
 	void		ProcessRoomChatPacket(unsigned char *packet);
+	void		ProcessEnterRoomPacket(unsigned char *packet);
 
 	int			WsaRecv();
-	void		SendPacket(unsigned char *packet);
+	void		SendBroadcast(google::protobuf::MessageLite * msg);
+	void		SendPacket(unsigned char *packet, int size);
 	void		SendChannelMovePacket(int channel);
 	void		SendCreateRoomPacket(int room);
 	void		SendRoomMovePacket(unsigned char *packet);
 	void		SendRoomUserListPacket(unsigned char *packet);
-	void		SendRoomChatting(char* message, int room);
+	void		SendRoomChatting(char* message, int room, int len);
 	void		SendEnterRoom(int room);
 
 	void		CloseSocket();
@@ -73,5 +74,6 @@ public:
 	void		ChattingThreadStart(int roomIndex);
 	void		ChattingMenu(int roomIndex);
 	void		ChattingCommand(int roomIndex);
+	inline bool	GetRecvStart() { return recv_start; }
 };
 

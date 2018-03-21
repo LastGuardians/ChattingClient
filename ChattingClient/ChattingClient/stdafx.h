@@ -1,8 +1,9 @@
 #pragma once
-
+#define PROTOBUF_USE_DLLS
 #define _CRT_SECURE_NO_WARNINGS
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #pragma comment(lib, "ws2_32")
+#pragma comment(lib, "libprotobufd.lib")
 
 #include <iostream>
 #include <thread>
@@ -14,10 +15,16 @@
 #include <vector>
 #include <string>
 #include <thread>
+#include <process.h>
+#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
+#include <google/protobuf/text_format.h>
+#include "Channel_P.pb.h"
 
 #define SERVERIP	"127.0.0.1"
 #define SERVERPORT	9000
 #define BUF_SIZE	1024
+
+using namespace google;
 
 
 enum EVENT_TYPE
@@ -29,15 +36,18 @@ enum EVENT_TYPE
 
 enum MENU_SELECT
 {
-	CHANNEL_MOVE = 1,
-	ROOM_CREATE = 2,
-	ENTER_ROOM_INIT = 3,
-	IN_ROOM_USER_LIST = 4,
-	ROOM_MOVE = 5,
-	EXIT_SERVER = 10
+	CHANNEL_MOVE			= 1,
+	ROOM_CREATE				= 2,
+	ENTER_ROOM_INIT			= 3,
+	IN_ROOM_USER_LIST		= 4,
+	ROOM_MOVE				= 5,
+	CHANNEL_CHATTING_MENU	= 6,
+	ROOM_CHATTING_MENU		= 7,
+	EXIT_SERVER				= 10
 };
 
 //#include "C:\Users\song\Documents\ChattingServer-채널매니저x\ChattingServer-채널매니저x\ChattingServer\ChattingServer\protocol.h"
 #include "C:\Users\songyikim\Source\Repos\ChattingServer\ChattingServer\protocol.h"
 #include "User.h"
 #include "ChattingClient.h"
+#include "PacketHandler.h"

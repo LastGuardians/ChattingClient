@@ -71,9 +71,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\songyikim\Documents\protobuf-3.2.x\protobuf-3.2.x\src;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\songyikim\Documents\protobuf-3.2.x\protobuf-3.2.x\solution\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\songyikim\Documents\protobuf-3.2.x\protobuf-3.2.x\src;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\songyikim\Documents\protobuf-3.2.x\protobuf-3.2.x\solution\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -92,6 +96,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libprotobufd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -105,6 +110,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libprotobufd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -142,15 +148,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Channel_P.pb.cc" />
     <ClCompile Include="ChattingClient.cpp" />
     <ClCompile Include="clientMain.cpp" />
+    <ClCompile Include="PacketHandler.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\ChattingServer\ChattingServer\protocol.h" />
+    <ClInclude Include="Channel_P.pb.h" />
     <ClInclude Include="ChattingClient.h" />
+    <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="User.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Channel_P.proto" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
