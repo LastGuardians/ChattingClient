@@ -38,9 +38,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ChattingServer\ChattingServer\protocol.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="ChattingClient.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>

@@ -32,6 +32,8 @@ private:
 	char 			recv_buffer[BUF_SIZE];
 
 	int				my_id;
+	int				channel_index;
+	int				room_index = 0;
 
 	HANDLE			handle;
 	HANDLE			m_hiocp = { 0 };
@@ -51,22 +53,25 @@ public:
 	void		ProcessPacket(unsigned char *packet);
 	void		ProcessEneterChannelPacket(unsigned char *packet);
 	void		ProcessCreateRoomPacket(unsigned char *packet);
-	void		ProcessRoomMovePacket(unsigned char *packet);
-	void		ProcessRoomUserListPacket(unsigned char *packet);
 	void		ProcessNotifyExistRoomPacket(unsigned char *packet);
 	void		ProcessRoomListPacket(unsigned char *packet);
 	void		ProcessRoomChatPacket(unsigned char *packet);
 	void		ProcessEnterRoomPacket(unsigned char *packet);
+	void		ProcessChannelChatPacket(unsigned char *packet);
+	void		ProcessNotifyEnterRoomPacket(unsigned char *packet);
+	void		ProcessNotifyLeaveRoomPacket(unsigned char *packet);
 
 	int			WsaRecv();
-	void		SendBroadcast(google::protobuf::MessageLite * msg);
+	//void		SendBroadcast(google::protobuf::MessageLite * msg);
 	void		SendPacket(unsigned char *packet, int size);
 	void		SendChannelMovePacket(int channel);
+	void		SendChannelChattingPacket(char* message, int channel, int len);
 	void		SendCreateRoomPacket(int room);
 	void		SendRoomMovePacket(unsigned char *packet);
-	void		SendRoomUserListPacket(unsigned char *packet);
-	void		SendRoomChatting(char* message, int room, int len);
-	void		SendEnterRoom(int room);
+	void		SendRoomUserListPacket(int room);
+	void		SendRoomChattingPacket(char* message, int room, int len);
+	void		SendEnterRoomPacket(int room);
+	void		SendLeaveRoomPacket(int room);
 
 	void		CloseSocket();
 	void		err_display(char *msg, int err_no);
