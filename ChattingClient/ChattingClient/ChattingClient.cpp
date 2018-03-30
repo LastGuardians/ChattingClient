@@ -556,7 +556,7 @@ void ChattingClient::SetMenu()
 				system("cls");
 				int channel;
 				std::cout << std::endl;
-				std::cout << "몇 번 채널로 이동하시겠습니까? (0~4 선택) : " << std::endl;
+				std::cout << "몇 번 채널로 이동하시겠습니까? (0 ~ 4 선택) : " << std::endl;
 				std::cin >> channel;
 				if (channel > 4 || channel < 0) {
 					printf("채널을 잘못 선택했습니다.\n\n");
@@ -569,7 +569,7 @@ void ChattingClient::SetMenu()
 				break;
 			case ROOM_CREATE:
 				system("cls");
-				if (room_index != 0)
+				if (0 != room_index)
 				{
 					std::cout << "이미 방에 입장 중입니다." << std::endl;
 					break;
@@ -586,6 +586,11 @@ void ChattingClient::SetMenu()
 				menu_enable = false;
 				break;
 			case ENTER_ROOM_INIT:
+				if (0 != room_index)
+				{
+					std::cout << "이미 방에 입장 중입니다." << std::endl << std::endl;
+					break;
+				}
 				system("cls");
 				std::cout << "몇 번 방으로 입장하시겠습니까? ";
 				std::cin >> room;
@@ -654,6 +659,7 @@ void ChattingClient::SetMenu()
 				exit(-1);
 				break;
 			default:
+				std::cout << "메뉴를 다시 선택하세요." << std::endl;
 				break;
 			}
 		}

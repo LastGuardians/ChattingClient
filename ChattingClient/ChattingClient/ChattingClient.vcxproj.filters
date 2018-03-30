@@ -30,6 +30,9 @@
     <ClCompile Include="PacketHandler.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\ChattingServer\ChattingServer\Protocols.pb.cc">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
@@ -47,9 +50,15 @@
     <ClInclude Include="PacketHandler.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ChattingServer\ChattingServer\Protocols.pb.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Channel_P.proto">
+      <Filter>소스 파일</Filter>
+    </None>
+    <None Include="..\..\..\ChattingServer\ChattingServer\Protocols.proto">
       <Filter>소스 파일</Filter>
     </None>
   </ItemGroup>

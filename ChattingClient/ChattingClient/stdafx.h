@@ -1,9 +1,9 @@
 #pragma once
-//#define PROTOBUF_USE_DLLS
+#define PROTOBUF_USE_DLLS
 #define _CRT_SECURE_NO_WARNINGS
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #pragma comment(lib, "ws2_32")
-//#pragma comment(lib, "libprotobufd.lib")
+#pragma comment(lib, "libprotobufd.lib")
 
 #include <iostream>
 #include <thread>
@@ -16,9 +16,9 @@
 #include <string>
 #include <thread>
 #include <process.h>
-//#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
-//#include <google/protobuf/text_format.h>
-//#include "Channel_P.pb.h"
+#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
+#include <google/protobuf/text_format.h>
+#include "Protocols.pb.h"
 
 #define SERVERIP	"127.0.0.1"
 #define SERVERPORT	9000
@@ -47,8 +47,10 @@ enum MENU_SELECT
 	EXIT_SERVER				= 10
 };
 
-#include "C:\Users\song\Documents\Visual Studio 2015\Projects\ChattingServer\ChattingServer\protocol.h"
+//#include "C:\Users\song\Documents\Visual Studio 2015\Projects\ChattingServer\ChattingServer\protocol.h"
 //#include "C:\Users\songyikim\Source\Repos\ChattingServer\ChattingServer\protocol.h"
+#include "../../../ChattingServer/ChattingServer/protocol.h"
+//#include "..\include\protocol.h"
 #include "User.h"
 #include "ChattingClient.h"
 //#include "PacketHandler.h"
