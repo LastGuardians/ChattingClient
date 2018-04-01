@@ -235,7 +235,7 @@ class Enter_Channel : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // required int32 id = 1;
+  // optional int32 id = 1;
   bool has_id() const;
   void clear_id();
   static const int kIdFieldNumber = 1;
@@ -255,9 +255,6 @@ class Enter_Channel : public ::google::protobuf::Message /* @@protoc_insertion_p
   void clear_has_id();
   void set_has_channelindex();
   void clear_has_channelindex();
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -358,7 +355,7 @@ class Change_Channel : public ::google::protobuf::Message /* @@protoc_insertion_
 
   // accessors -------------------------------------------------------
 
-  // required int32 id = 1;
+  // optional int32 id = 1;
   bool has_id() const;
   void clear_id();
   static const int kIdFieldNumber = 1;
@@ -378,9 +375,6 @@ class Change_Channel : public ::google::protobuf::Message /* @@protoc_insertion_
   void clear_has_id();
   void set_has_channelindex();
   void clear_has_channelindex();
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -481,10 +475,10 @@ class Channel_Chatting : public ::google::protobuf::Message /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
-  // required string message = 3;
+  // required string message = 2;
   bool has_message() const;
   void clear_message();
-  static const int kMessageFieldNumber = 3;
+  static const int kMessageFieldNumber = 2;
   const ::std::string& message() const;
   void set_message(const ::std::string& value);
   #if LANG_CXX11
@@ -496,38 +490,25 @@ class Channel_Chatting : public ::google::protobuf::Message /* @@protoc_insertio
   ::std::string* release_message();
   void set_allocated_message(::std::string* message);
 
-  // required int32 id = 1;
+  // optional int32 id = 1;
   bool has_id() const;
   void clear_id();
   static const int kIdFieldNumber = 1;
   ::google::protobuf::int32 id() const;
   void set_id(::google::protobuf::int32 value);
 
-  // required int32 channelIndex = 2;
-  bool has_channelindex() const;
-  void clear_channelindex();
-  static const int kChannelIndexFieldNumber = 2;
-  ::google::protobuf::int32 channelindex() const;
-  void set_channelindex(::google::protobuf::int32 value);
-
   // @@protoc_insertion_point(class_scope:Protocols.Channel_Chatting)
  private:
   void set_has_id();
   void clear_has_id();
-  void set_has_channelindex();
-  void clear_has_channelindex();
   void set_has_message();
   void clear_has_message();
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
   ::google::protobuf::internal::ArenaStringPtr message_;
   ::google::protobuf::int32 id_;
-  ::google::protobuf::int32 channelindex_;
   friend struct ::protobuf_Protocols_2eproto::TableStruct;
   friend void ::protobuf_Protocols_2eproto::InitDefaultsChannel_ChattingImpl();
 };
@@ -622,7 +603,7 @@ class Create_Room : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // required int32 id = 1;
+  // optional int32 id = 1;
   bool has_id() const;
   void clear_id();
   static const int kIdFieldNumber = 1;
@@ -642,9 +623,6 @@ class Create_Room : public ::google::protobuf::Message /* @@protoc_insertion_poi
   void clear_has_id();
   void set_has_roomindex();
   void clear_has_roomindex();
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -745,10 +723,10 @@ class Room_Chatting : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // required string message = 3;
+  // required string message = 2;
   bool has_message() const;
   void clear_message();
-  static const int kMessageFieldNumber = 3;
+  static const int kMessageFieldNumber = 2;
   const ::std::string& message() const;
   void set_message(const ::std::string& value);
   #if LANG_CXX11
@@ -760,38 +738,25 @@ class Room_Chatting : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::std::string* release_message();
   void set_allocated_message(::std::string* message);
 
-  // required int32 id = 1;
+  // optional int32 id = 1;
   bool has_id() const;
   void clear_id();
   static const int kIdFieldNumber = 1;
   ::google::protobuf::int32 id() const;
   void set_id(::google::protobuf::int32 value);
 
-  // required int32 roomIndex = 2;
-  bool has_roomindex() const;
-  void clear_roomindex();
-  static const int kRoomIndexFieldNumber = 2;
-  ::google::protobuf::int32 roomindex() const;
-  void set_roomindex(::google::protobuf::int32 value);
-
   // @@protoc_insertion_point(class_scope:Protocols.Room_Chatting)
  private:
   void set_has_id();
   void clear_has_id();
-  void set_has_roomindex();
-  void clear_has_roomindex();
   void set_has_message();
   void clear_has_message();
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
   ::google::protobuf::internal::ArenaStringPtr message_;
   ::google::protobuf::int32 id_;
-  ::google::protobuf::int32 roomindex_;
   friend struct ::protobuf_Protocols_2eproto::TableStruct;
   friend void ::protobuf_Protocols_2eproto::InitDefaultsRoom_ChattingImpl();
 };
@@ -886,7 +851,7 @@ class Enter_Room : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // accessors -------------------------------------------------------
 
-  // required int32 id = 1;
+  // optional int32 id = 1;
   bool has_id() const;
   void clear_id();
   static const int kIdFieldNumber = 1;
@@ -900,7 +865,7 @@ class Enter_Room : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::int32 roomindex() const;
   void set_roomindex(::google::protobuf::int32 value);
 
-  // required bool isEnter = 3;
+  // optional bool isEnter = 3;
   bool has_isenter() const;
   void clear_isenter();
   static const int kIsEnterFieldNumber = 3;
@@ -915,9 +880,6 @@ class Enter_Room : public ::google::protobuf::Message /* @@protoc_insertion_poin
   void clear_has_roomindex();
   void set_has_isenter();
   void clear_has_isenter();
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -1019,7 +981,7 @@ class Leave_Room : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // accessors -------------------------------------------------------
 
-  // required int32 id = 1;
+  // optional int32 id = 1;
   bool has_id() const;
   void clear_id();
   static const int kIdFieldNumber = 1;
@@ -1039,9 +1001,6 @@ class Leave_Room : public ::google::protobuf::Message /* @@protoc_insertion_poin
   void clear_has_id();
   void set_has_roomindex();
   void clear_has_roomindex();
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -1142,7 +1101,7 @@ class Notify_Exist_Room : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // required int32 id = 1;
+  // optional int32 id = 1;
   bool has_id() const;
   void clear_id();
   static const int kIdFieldNumber = 1;
@@ -1156,7 +1115,7 @@ class Notify_Exist_Room : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::int32 roomindex() const;
   void set_roomindex(::google::protobuf::int32 value);
 
-  // required bool exist = 3;
+  // optional bool exist = 3;
   bool has_exist() const;
   void clear_exist();
   static const int kExistFieldNumber = 3;
@@ -1171,9 +1130,6 @@ class Notify_Exist_Room : public ::google::protobuf::Message /* @@protoc_inserti
   void clear_has_roomindex();
   void set_has_exist();
   void clear_has_exist();
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -1275,7 +1231,7 @@ class Notify_Enter_Room : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // required int32 id = 1;
+  // optional int32 id = 1;
   bool has_id() const;
   void clear_id();
   static const int kIdFieldNumber = 1;
@@ -1385,7 +1341,7 @@ class Notify_Leave_Room : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // required int32 id = 1;
+  // optional int32 id = 1;
   bool has_id() const;
   void clear_id();
   static const int kIdFieldNumber = 1;
@@ -1507,7 +1463,7 @@ class Room_List : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_userlist();
 
-  // required int32 id = 1;
+  // optional int32 id = 1;
   bool has_id() const;
   void clear_id();
   static const int kIdFieldNumber = 1;
@@ -1521,7 +1477,7 @@ class Room_List : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::int32 roomindex() const;
   void set_roomindex(::google::protobuf::int32 value);
 
-  // required int32 userCount = 4;
+  // optional int32 userCount = 4;
   bool has_usercount() const;
   void clear_usercount();
   static const int kUserCountFieldNumber = 4;
@@ -1536,9 +1492,6 @@ class Room_List : public ::google::protobuf::Message /* @@protoc_insertion_point
   void clear_has_roomindex();
   void set_has_usercount();
   void clear_has_usercount();
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -1561,7 +1514,7 @@ class Room_List : public ::google::protobuf::Message /* @@protoc_insertion_point
 #endif  // __GNUC__
 // Enter_Channel
 
-// required int32 id = 1;
+// optional int32 id = 1;
 inline bool Enter_Channel::has_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1613,7 +1566,7 @@ inline void Enter_Channel::set_channelindex(::google::protobuf::int32 value) {
 
 // Change_Channel
 
-// required int32 id = 1;
+// optional int32 id = 1;
 inline bool Change_Channel::has_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1665,7 +1618,7 @@ inline void Change_Channel::set_channelindex(::google::protobuf::int32 value) {
 
 // Channel_Chatting
 
-// required int32 id = 1;
+// optional int32 id = 1;
 inline bool Channel_Chatting::has_id() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -1689,31 +1642,7 @@ inline void Channel_Chatting::set_id(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:Protocols.Channel_Chatting.id)
 }
 
-// required int32 channelIndex = 2;
-inline bool Channel_Chatting::has_channelindex() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void Channel_Chatting::set_has_channelindex() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void Channel_Chatting::clear_has_channelindex() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void Channel_Chatting::clear_channelindex() {
-  channelindex_ = 0;
-  clear_has_channelindex();
-}
-inline ::google::protobuf::int32 Channel_Chatting::channelindex() const {
-  // @@protoc_insertion_point(field_get:Protocols.Channel_Chatting.channelIndex)
-  return channelindex_;
-}
-inline void Channel_Chatting::set_channelindex(::google::protobuf::int32 value) {
-  set_has_channelindex();
-  channelindex_ = value;
-  // @@protoc_insertion_point(field_set:Protocols.Channel_Chatting.channelIndex)
-}
-
-// required string message = 3;
+// required string message = 2;
 inline bool Channel_Chatting::has_message() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1780,7 +1709,7 @@ inline void Channel_Chatting::set_allocated_message(::std::string* message) {
 
 // Create_Room
 
-// required int32 id = 1;
+// optional int32 id = 1;
 inline bool Create_Room::has_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1832,7 +1761,7 @@ inline void Create_Room::set_roomindex(::google::protobuf::int32 value) {
 
 // Room_Chatting
 
-// required int32 id = 1;
+// optional int32 id = 1;
 inline bool Room_Chatting::has_id() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -1856,31 +1785,7 @@ inline void Room_Chatting::set_id(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:Protocols.Room_Chatting.id)
 }
 
-// required int32 roomIndex = 2;
-inline bool Room_Chatting::has_roomindex() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void Room_Chatting::set_has_roomindex() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void Room_Chatting::clear_has_roomindex() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void Room_Chatting::clear_roomindex() {
-  roomindex_ = 0;
-  clear_has_roomindex();
-}
-inline ::google::protobuf::int32 Room_Chatting::roomindex() const {
-  // @@protoc_insertion_point(field_get:Protocols.Room_Chatting.roomIndex)
-  return roomindex_;
-}
-inline void Room_Chatting::set_roomindex(::google::protobuf::int32 value) {
-  set_has_roomindex();
-  roomindex_ = value;
-  // @@protoc_insertion_point(field_set:Protocols.Room_Chatting.roomIndex)
-}
-
-// required string message = 3;
+// required string message = 2;
 inline bool Room_Chatting::has_message() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1947,7 +1852,7 @@ inline void Room_Chatting::set_allocated_message(::std::string* message) {
 
 // Enter_Room
 
-// required int32 id = 1;
+// optional int32 id = 1;
 inline bool Enter_Room::has_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1995,7 +1900,7 @@ inline void Enter_Room::set_roomindex(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:Protocols.Enter_Room.roomIndex)
 }
 
-// required bool isEnter = 3;
+// optional bool isEnter = 3;
 inline bool Enter_Room::has_isenter() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -2023,7 +1928,7 @@ inline void Enter_Room::set_isenter(bool value) {
 
 // Leave_Room
 
-// required int32 id = 1;
+// optional int32 id = 1;
 inline bool Leave_Room::has_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -2075,7 +1980,7 @@ inline void Leave_Room::set_roomindex(::google::protobuf::int32 value) {
 
 // Notify_Exist_Room
 
-// required int32 id = 1;
+// optional int32 id = 1;
 inline bool Notify_Exist_Room::has_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -2123,7 +2028,7 @@ inline void Notify_Exist_Room::set_roomindex(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:Protocols.Notify_Exist_Room.roomIndex)
 }
 
-// required bool exist = 3;
+// optional bool exist = 3;
 inline bool Notify_Exist_Room::has_exist() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -2151,7 +2056,7 @@ inline void Notify_Exist_Room::set_exist(bool value) {
 
 // Notify_Enter_Room
 
-// required int32 id = 1;
+// optional int32 id = 1;
 inline bool Notify_Enter_Room::has_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -2179,7 +2084,7 @@ inline void Notify_Enter_Room::set_id(::google::protobuf::int32 value) {
 
 // Notify_Leave_Room
 
-// required int32 id = 1;
+// optional int32 id = 1;
 inline bool Notify_Leave_Room::has_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -2207,7 +2112,7 @@ inline void Notify_Leave_Room::set_id(::google::protobuf::int32 value) {
 
 // Room_List
 
-// required int32 id = 1;
+// optional int32 id = 1;
 inline bool Room_List::has_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -2285,7 +2190,7 @@ inline void Room_List::set_roomindex(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:Protocols.Room_List.roomIndex)
 }
 
-// required int32 userCount = 4;
+// optional int32 userCount = 4;
 inline bool Room_List::has_usercount() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }

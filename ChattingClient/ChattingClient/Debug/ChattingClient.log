@@ -79,25 +79,13 @@ c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\ex
               _Kty=int,
               _Ty=google::protobuf::internal::ExtensionSet::Extension
           ]
-c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(104): warning C4101: 'buffer' :참조되지 않은 지역 변수입니다.
-c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(598): warning C4474: 'printf' : 서식 문자열에 전달된 인수가 너무 많습니다.
-  c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(598): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 1개 필요하지만 2개가 제공되었습니다.
-c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(612): warning C4805: '==': 연산에 'BOOL' 형식과 'bool' 형식을 함께 사용하는 것은 안전하지 않습니다.
-c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(753): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
-c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(753): warning C4101: 'send_msg' :참조되지 않은 지역 변수입니다.
-c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(760): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
-c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(760): warning C4101: 'send_msg' :참조되지 않은 지역 변수입니다.
-  코드를 생성하고 있습니다...
-  건너뛰고 있습니다... (관련된 변경 내용 없음)
-  clientMain.cpp
-ChattingClient.obj : warning LNK4217: 지역으로 정의된 ??0ArrayInputStream@io@protobuf@google@@QAE@PBXHH@Z (public: __thiscall google::protobuf::io::ArrayInputStream::ArrayInputStream(void const *,int,int)) 기호를 "public: void __thiscall ChattingClient::PacketProcess(class google::protobuf::io::CodedInputStream &,class ChattingClient const &)" (?PacketProcess@ChattingClient@@QAEXAAVCodedInputStream@io@protobuf@google@@ABV1@@Z) 함수로 가져왔습니다.
-ChattingClient.obj : warning LNK4217: 지역으로 정의된 ??1ArrayInputStream@io@protobuf@google@@UAE@XZ (public: virtual __thiscall google::protobuf::io::ArrayInputStream::~ArrayInputStream(void)) 기호를 "public: void __thiscall ChattingClient::PacketProcess(class google::protobuf::io::CodedInputStream &,class ChattingClient const &)" (?PacketProcess@ChattingClient@@QAEXAAVCodedInputStream@io@protobuf@google@@ABV1@@Z) 함수로 가져왔습니다.
-ChattingClient.obj : warning LNK4217: 지역으로 정의된 ?ParseFromCodedStream@MessageLite@protobuf@google@@QAE_NPAVCodedInputStream@io@23@@Z (public: bool __thiscall google::protobuf::MessageLite::ParseFromCodedStream(class google::protobuf::io::CodedInputStream *)) 기호를 "public: void __thiscall ChattingClient::PacketProcess(class google::protobuf::io::CodedInputStream &,class ChattingClient const &)" (?PacketProcess@ChattingClient@@QAEXAAVCodedInputStream@io@protobuf@google@@ABV1@@Z) 함수로 가져왔습니다.
-ChattingClient.obj : warning LNK4217: 지역으로 정의된 ?SerializeToArray@MessageLite@protobuf@google@@QBE_NPAXH@Z (public: bool __thiscall google::protobuf::MessageLite::SerializeToArray(void *,int)const ) 기호를 "public: void __thiscall ChattingClient::SendCreateRoomPacket(int)" (?SendCreateRoomPacket@ChattingClient@@QAEXH@Z) 함수로 가져왔습니다.
-ChattingClient.obj : warning LNK4217: 지역으로 정의된 ??0CodedInputStream@io@protobuf@google@@QAE@PAVZeroCopyInputStream@123@@Z (public: __thiscall google::protobuf::io::CodedInputStream::CodedInputStream(class google::protobuf::io::ZeroCopyInputStream *)) 기호를 "public: void __thiscall ChattingClient::PacketProcess(class google::protobuf::io::CodedInputStream &,class ChattingClient const &)" (?PacketProcess@ChattingClient@@QAEXAAVCodedInputStream@io@protobuf@google@@ABV1@@Z) 함수로 가져왔습니다.
-ChattingClient.obj : warning LNK4217: 지역으로 정의된 ??1CodedInputStream@io@protobuf@google@@QAE@XZ (public: __thiscall google::protobuf::io::CodedInputStream::~CodedInputStream(void)) 기호를 "public: void __thiscall ChattingClient::PacketProcess(class google::protobuf::io::CodedInputStream &,class ChattingClient const &)" (?PacketProcess@ChattingClient@@QAEXAAVCodedInputStream@io@protobuf@google@@ABV1@@Z) 함수로 가져왔습니다.
-ChattingClient.obj : warning LNK4217: 지역으로 정의된 ?Skip@CodedInputStream@io@protobuf@google@@QAE_NH@Z (public: bool __thiscall google::protobuf::io::CodedInputStream::Skip(int)) 기호를 "public: void __thiscall ChattingClient::PacketProcess(class google::protobuf::io::CodedInputStream &,class ChattingClient const &)" (?PacketProcess@ChattingClient@@QAEXAAVCodedInputStream@io@protobuf@google@@ABV1@@Z) 함수로 가져왔습니다.
-ChattingClient.obj : warning LNK4217: 지역으로 정의된 ?GetDirectBufferPointer@CodedInputStream@io@protobuf@google@@QAE_NPAPBXPAH@Z (public: bool __thiscall google::protobuf::io::CodedInputStream::GetDirectBufferPointer(void const * *,int *)) 기호를 "public: void __thiscall ChattingClient::PacketProcess(class google::protobuf::io::CodedInputStream &,class ChattingClient const &)" (?PacketProcess@ChattingClient@@QAEXAAVCodedInputStream@io@protobuf@google@@ABV1@@Z) 함수로 가져왔습니다.
-ChattingClient.obj : warning LNK4217: 지역으로 정의된 ?ReadRaw@CodedInputStream@io@protobuf@google@@QAE_NPAXH@Z (public: bool __thiscall google::protobuf::io::CodedInputStream::ReadRaw(void *,int)) 기호를 "public: void __thiscall ChattingClient::PacketProcess(class google::protobuf::io::CodedInputStream &,class ChattingClient const &)" (?PacketProcess@ChattingClient@@QAEXAAVCodedInputStream@io@protobuf@google@@ABV1@@Z) 함수로 가져왔습니다.
+c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(106): warning C4101: 'buffer' :참조되지 않은 지역 변수입니다.
+c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(699): warning C4474: 'printf' : 서식 문자열에 전달된 인수가 너무 많습니다.
+  c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(699): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 1개 필요하지만 2개가 제공되었습니다.
+c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(713): warning C4805: '==': 연산에 'BOOL' 형식과 'bool' 형식을 함께 사용하는 것은 안전하지 않습니다.
+c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(851): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(851): warning C4101: 'send_msg' :참조되지 않은 지역 변수입니다.
+c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(858): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(858): warning C4101: 'send_msg' :참조되지 않은 지역 변수입니다.
   ChattingClient.vcxproj -> C:\Users\song\Source\Repos\ChattingClient\ChattingClient\Debug\ChattingClient.exe
   ChattingClient.vcxproj -> C:\Users\song\Source\Repos\ChattingClient\ChattingClient\Debug\ChattingClient.pdb (Full PDB)

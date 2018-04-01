@@ -34,7 +34,6 @@ private:
 	//Overlap			recv_over;
 	//RecvBuffInfo	recv_buff;
 
-	WSABUF			send_wsabuf;
 	char 			send_buffer[BUF_SIZE];
 	WSABUF			recv_wsabuf;
 	char 			recv_buffer[BUF_SIZE];
@@ -58,20 +57,19 @@ public:
 	int			Recvn(SOCKET s, char* buf, int len, int flags);
 
 	int			PacketRessembly(DWORD packetSize);
-	void		PacketProcess(protobuf::io::CodedInputStream& input_stream, const ChattingClient& handler);
+	void		PacketProcess(protobuf::io::CodedInputStream& input_stream);
 	void		ProcessPacket(unsigned char *packet);
 	void		ProcessEneterChannelPacket(const Protocols::Enter_Channel message) const;
-	void		ProcessCreateRoomPacket(unsigned char *packet);
-	void		ProcessNotifyExistRoomPacket(unsigned char *packet);
-	void		ProcessRoomListPacket(unsigned char *packet);
-	void		ProcessRoomChatPacket(unsigned char *packet);
-	void		ProcessEnterRoomPacket(unsigned char *packet);
-	void		ProcessChannelChatPacket(unsigned char *packet);
-	void		ProcessNotifyEnterRoomPacket(unsigned char *packet);
-	void		ProcessNotifyLeaveRoomPacket(unsigned char *packet);
+	void		ProcessCreateRoomPacket(const Protocols::Create_Room message) const;
+	bool		ProcessNotifyExistRoomPacket(const Protocols::Notify_Exist_Room message) const;
+	void		ProcessRoomListPacket(const Protocols::Room_List message) const;
+	void		ProcessRoomChatPacket(const Protocols::Room_Chatting message) const;
+	bool		ProcessEnterRoomPacket(const Protocols::Enter_Room message) const;
+	void		ProcessChannelChatPacket(const Protocols::Channel_Chatting message) const;
+	void		ProcessNotifyEnterRoomPacket(const Protocols::Notify_Enter_Room message) const;
+	void		ProcessNotifyLeaveRoomPacket(const Protocols::Notify_Leave_Room message) const;
 
 	int			WsaRecv();
-	//void		SendBroadcast(google::protobuf::MessageLite * msg);
 	void		SendPacket(unsigned char *packet, int size);
 	void		SendChannelMovePacket(int channel);
 	void		SendChannelChattingPacket(char* message, int channel, int len);
@@ -79,11 +77,11 @@ public:
 	void		SendRoomMovePacket(unsigned char *packet);
 	void		SendRoomUserListPacket(int room);
 	void		SendRoomChattingPacket(char* message, int room, int len);
-	void		SendEnterRoomPacket(int room);
+	void		SendEnterRoomPacket(int room) const;
 	void		SendLeaveRoomPacket(int room);
 
 	void		CloseSocket();
-	void		err_display(char *msg, int err_no);
+	void		err_display(char *msg, int err_no) const;
 	void		SetMenu();
 	void		ChattingThreadStart(int roomIndex);
 	void		ChattingMenu(int roomIndex);
