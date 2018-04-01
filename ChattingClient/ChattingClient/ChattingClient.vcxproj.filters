@@ -24,13 +24,10 @@
     <ClCompile Include="ChattingClient.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Channel_P.pb.cc">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="PacketHandler.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ChattingServer\ChattingServer\Protocols.pb.cc">
+    <ClCompile Include="Protocols.pb.cc">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,20 +41,14 @@
     <ClInclude Include="ChattingClient.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Channel_P.pb.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="PacketHandler.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ChattingServer\ChattingServer\Protocols.pb.h">
+    <ClInclude Include="Protocols.pb.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Channel_P.proto">
-      <Filter>소스 파일</Filter>
-    </None>
     <None Include="..\..\..\ChattingServer\ChattingServer\Protocols.proto">
       <Filter>소스 파일</Filter>
     </None>

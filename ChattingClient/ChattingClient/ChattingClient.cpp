@@ -112,8 +112,14 @@ void ChattingClient::RecvThread()
 			err_display("recv() Error! : ", WSAGetLastError());
 			return;
 		}
-		std::vector<char*> recv_vector;
-		ProcessPacket(reinterpret_cast<unsigned char *>(&recv_buffer));
+		ChattingClient handler;
+		protobuf::io::ArrayInputStream input_array_stream(recv_buffer, BUF_SIZE);
+		protobuf::io::CodedInputStream input_coded_stream(&input_array_stream);
+
+		// 패킷 분석
+		PacketProcess(input_coded_stream, handler);
+
+		//ProcessPacket(reinterpret_cast<unsigned char *>(&recv_buffer));
 
 		menu_enable = true;
 		recv_start = true;
@@ -123,13 +129,63 @@ void ChattingClient::RecvThread()
 	WSACleanup();//윈속 해제화
 }
 
+void ChattingClient::PacketProcess(protobuf::io::CodedInputStream & input_stream, const ChattingClient & handler)
+{
+	MessageHeader messageHeader;
+
+	// 헤더를 읽어냄
+	while (input_stream.ReadRaw(&messageHeader, MessageHeaderSize))
+	{
+		// 직접 억세스 할수 있는 버퍼 포인터와 남은 길이를 알아냄
+		const void* payload_ptr = NULL;
+		int remainSize = 0;
+		input_stream.GetDirectBufferPointer(&payload_ptr, &remainSize);
+		if (remainSize < (signed)messageHeader.size)
+			break;
+
+
+		// 메세지 본체를 읽어내기 위한 스트림을 생성
+		protobuf::io::ArrayInputStream payload_array_stream(payload_ptr, messageHeader.size);
+		protobuf::io::CodedInputStream payload_input_stream(&payload_array_stream);
+
+
+		// 메세지 본체 사이즈 만큼 포인터 전진
+		input_stream.Skip(messageHeader.size);
+
+		// 메세지 종류별로 역직렬화해서 적절한 메서드를 호출해줌
+		switch (messageHeader.type)
+		{
+		case Protocols::ENTER_CHANNEL:
+		{
+			Protocols::Enter_Channel message;
+			if (false == message.ParseFromCodedStream(&payload_input_stream))
+				break;
+			handler.ProcessEneterChannelPacket(message);
+			my_id = message.id();		// 클라 id 지정
+			channel_index = message.channelindex();
+			break;
+		}
+
+		case Protocols::CREATE_ROOM:
+		{
+			Protocols::Create_Room message;
+			if (false == message.ParseFromCodedStream(&payload_input_stream))
+				break;
+			//handler.ProcessCreateRoomPacket(message);
+
+			break;
+		}
+		}
+	}
+}
+
 // 수신 패킷 처리
 void ChattingClient::ProcessPacket(unsigned char *packet)
 {
 	switch (packet[0])
 	{
 	case ENTER_CHANNEL: {
-		ProcessEneterChannelPacket(packet);
+		//ProcessEneterChannelPacket(packet);
 		break;
 	}
 	case CREATE_ROOM: {
@@ -172,22 +228,19 @@ void ChattingClient::ProcessPacket(unsigned char *packet)
 	}
 }
 
-void ChattingClient::ProcessEneterChannelPacket(unsigned char *packet)
+void ChattingClient::ProcessEneterChannelPacket(const Protocols::Enter_Channel message) const 
 {
-	Enter_Channel *enter_packet = reinterpret_cast<Enter_Channel*>(packet);
 	std::cout << "======================================" << std::endl;
-	std::cout << enter_packet->channelIndex << "번 채널에 입장하셨습니다." << std::endl;
+	std::cout << message.channelindex() << "번 채널에 입장하셨습니다." << std::endl;
 	std::cout << "======================================" << std::endl;
 	printf("\n");
-	my_id = enter_packet->id;		// 클라 id 지정
-	channel_index = enter_packet->channelIndex;
 
 	menu_enable = true;
 	//SetMenu();
 }
 
 // 방 생성 패킷 처리
-void ChattingClient::ProcessCreateRoomPacket(unsigned char *packet)
+void ChattingClient::ProcessCreateRoomPacket(unsigned char *packet) 
 {
 	Create_Room *create_packet = reinterpret_cast<Create_Room*>(packet);
 	menu_enable = true;
@@ -402,7 +455,32 @@ void ChattingClient::SendChannelChattingPacket(char * message, int channel, int 
 // 방 생성 패킷 전송
 void ChattingClient::SendCreateRoomPacket(int room)
 {
+	Protocols::Create_Room create_room;
+	create_room.set_id(my_id);
+	create_room.set_roomindex(room);
+
+	size_t bufSize = create_room.ByteSizeLong();
+	char* outputBuf = new char[bufSize];
+
+	// 헤더 생성
+	MessageHeader header;
+	header.size = MessageHeaderSize + bufSize;
+	header.type = Protocols::CREATE_ROOM;
+	char* header_seri = reinterpret_cast<char*>(&header);
+
+	int rtn = create_room.SerializeToArray(outputBuf, bufSize);
+
+	// 전송 버퍼 생성
+	char* resultBuf = new char[bufSize + MessageHeaderSize];
+	memcpy(resultBuf, header_seri, MessageHeaderSize);
+	memcpy(resultBuf + MessageHeaderSize, outputBuf, bufSize);
+
 	DWORD iobyte = 0;
+	send_wsabuf.buf = resultBuf;
+	send_wsabuf.len = header.size;
+	int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+
+	/*DWORD iobyte = 0;
 
 	Create_Room* packet = reinterpret_cast<Create_Room *>(send_buffer);
 	packet->type = CREATE_ROOM;
@@ -411,7 +489,7 @@ void ChattingClient::SendCreateRoomPacket(int room)
 	packet->roomIndex = room;
 
 	send_wsabuf.len = sizeof(*packet);
-	int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+	int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);*/
 
 	if (SOCKET_ERROR == ret) {
 		if (ERROR_IO_PENDING != WSAGetLastError()) {
@@ -568,6 +646,7 @@ void ChattingClient::SetMenu()
 				channel_index = channel;
 				break;
 			case ROOM_CREATE:
+			{
 				system("cls");
 				if (0 != room_index)
 				{
@@ -581,10 +660,11 @@ void ChattingClient::SetMenu()
 					std::cout << "방은 1번 부터 생성 가능합니다." << std::endl << std::endl;
 					break;
 				}
-				SendCreateRoomPacket(room);
 				room_index = room;
 				menu_enable = false;
+				SendCreateRoomPacket(room);				
 				break;
+			}
 			case ENTER_ROOM_INIT:
 				if (0 != room_index)
 				{

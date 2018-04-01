@@ -15,6 +15,14 @@ struct RecvBuffInfo {
 };
 
 
+// 패킷 헤더
+struct MessageHeader
+{
+	Protocols::PacketType	type;
+	protobuf::uint32		size;
+};
+const int MessageHeaderSize = sizeof(MessageHeader);
+
 class ChattingClient
 {
 public:
@@ -50,8 +58,9 @@ public:
 	int			Recvn(SOCKET s, char* buf, int len, int flags);
 
 	int			PacketRessembly(DWORD packetSize);
+	void		PacketProcess(protobuf::io::CodedInputStream& input_stream, const ChattingClient& handler);
 	void		ProcessPacket(unsigned char *packet);
-	void		ProcessEneterChannelPacket(unsigned char *packet);
+	void		ProcessEneterChannelPacket(const Protocols::Enter_Channel message) const;
 	void		ProcessCreateRoomPacket(unsigned char *packet);
 	void		ProcessNotifyExistRoomPacket(unsigned char *packet);
 	void		ProcessRoomListPacket(unsigned char *packet);
