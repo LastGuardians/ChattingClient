@@ -31,9 +31,6 @@ public:
 
 private:
 	SOCKET			g_socket;
-	//Overlap			recv_over;
-	//RecvBuffInfo	recv_buff;
-
 	char 			send_buffer[BUF_SIZE];
 	WSABUF			recv_wsabuf;
 	char 			recv_buffer[BUF_SIZE];
@@ -52,11 +49,9 @@ private:
 
 public:
 	bool		ServerConnect();
-	void		Run();
 	void		RecvThread();
 	int			Recvn(SOCKET s, char* buf, int len, int flags);
 
-	int			PacketRessembly(DWORD packetSize);
 	void		PacketProcess(protobuf::io::CodedInputStream& input_stream);
 	void		ProcessPacket(unsigned char *packet);
 	void		ProcessEneterChannelPacket(const Protocols::Enter_Channel message) const;
@@ -74,7 +69,6 @@ public:
 	void		SendChannelMovePacket(int channel);
 	void		SendChannelChattingPacket(char* message, int channel, int len);
 	void		SendCreateRoomPacket(int room);
-	void		SendRoomMovePacket(unsigned char *packet);
 	void		SendRoomUserListPacket(int room);
 	void		SendRoomChattingPacket(char* message, int room, int len);
 	void		SendEnterRoomPacket(int room) const;
@@ -83,9 +77,6 @@ public:
 	void		CloseSocket();
 	void		err_display(char *msg, int err_no) const;
 	void		SetMenu();
-	void		ChattingThreadStart(int roomIndex);
-	void		ChattingMenu(int roomIndex);
-	void		ChattingCommand(int roomIndex);
 	inline bool	GetRecvStart() { return recv_start; }
 };
 

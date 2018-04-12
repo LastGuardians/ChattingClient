@@ -47,8 +47,8 @@ enum MENU_SELECT
 	EXIT_SERVER				= 10
 };
 
-#include "C:\Users\song\Documents\Visual Studio 2015\Projects\ChattingServer\ChattingServer\protocol.h"
-//#include "C:\Users\songyikim\Source\Repos\ChattingServer\ChattingServer\protocol.h"
+//#include "C:\Users\song\Documents\Visual Studio 2015\Projects\ChattingServer\ChattingServer\protocol.h"
+#include "C:\Users\songyikim\Source\Repos\ChattingServer\ChattingServer\protocol.h"
 //#include "../../../ChattingServer/ChattingServer/protocol.h"
 #include "User.h"
 #include "ChattingClient.h"
