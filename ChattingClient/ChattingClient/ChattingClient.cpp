@@ -45,6 +45,7 @@ bool ChattingClient::ServerConnect()
 	std::cout << "Server Connected Success!" << std::endl << std::endl;	
 
 	std::thread recv_thread{ &ChattingClient::RecvThread, this };
+	LoginToServer();
 	std::thread send_thread{ &ChattingClient::SetMenu, this };
 	
 	recv_thread.join();
@@ -402,6 +403,40 @@ void ChattingClient::SendPacket(unsigned char *packet, int size)
 			err_display("WSASend() Error! : ", WSAGetLastError());
 		}
 	}	
+}
+
+void ChattingClient::SendLoginPacket(char * id, int len)
+{
+	DWORD iobyte = 0;
+
+	Protocols::User_Login login;
+	login.set_user_id(id);
+
+	size_t bufSize = login.ByteSizeLong();
+	char* outputBuf = new char[bufSize];
+
+	// 헤더 생성
+	MessageHeader header;
+	header.size = MessageHeaderSize + bufSize;
+	header.type = Protocols::USER_LOGIN;
+	char* header_seri = reinterpret_cast<char*>(&header);
+
+	int rtn = login.SerializeToArray(outputBuf, bufSize);
+
+	// 전송 버퍼 생성
+	char* resultBuf = new char[bufSize + MessageHeaderSize];
+	memcpy(resultBuf, header_seri, MessageHeaderSize);
+	memcpy(resultBuf + MessageHeaderSize, outputBuf, bufSize);
+
+	send_wsabuf.buf = resultBuf;
+	send_wsabuf.len = header.size;
+	int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+
+	if (SOCKET_ERROR == ret) {
+		if (ERROR_IO_PENDING != WSAGetLastError()) {
+			err_display("WSASend() Error! : ", WSAGetLastError());
+		}
+	}
 }
 
 // 채널 이동 패킷 전송
@@ -811,4 +846,15 @@ void ChattingClient::SetMenu()
 			}
 		}
 	}
+}
+
+void ChattingClient::LoginToServer()
+{
+	char send_msg[MSG_SIZE];
+
+	while (getchar() != '\n');
+	std::cout << "아이디를 입력하세요. ";
+	std::cin.getline(send_msg, MSG_SIZE, '\n');
+	int login_len = strlen(send_msg);
+	SendLoginPacket(send_msg, login_len);
 }

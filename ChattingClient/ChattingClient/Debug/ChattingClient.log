@@ -1,83 +1,87 @@
 ﻿  ChattingClient.cpp
-c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\stubs\logging.h(100): warning C4251: 'google::protobuf::internal::LogMessage::message_': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 class 'google::protobuf::internal::LogMessage'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\stubs\logging.h(100): warning C4251: 'google::protobuf::internal::LogMessage::message_': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 class 'google::protobuf::internal::LogMessage'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
   c:\program files (x86)\microsoft visual studio 14.0\vc\include\xstring(2633): note: 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
-c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\io\zero_copy_stream_impl_lite.h(177): warning C4251: 'google::protobuf::io::LazyStringOutputStream::callback_': class 'google::protobuf::internal::scoped_ptr<google::protobuf::ResultCallback<std::string *>>'에서는 class 'google::protobuf::io::LazyStringOutputStream'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
-  c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\io\zero_copy_stream_impl_lite.h(177): note: 'google::protobuf::internal::scoped_ptr<google::protobuf::ResultCallback<std::string *>>' 선언을 참조하십시오.
-c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\io\zero_copy_stream_impl_lite.h(266): warning C4251: 'google::protobuf::io::CopyingInputStreamAdaptor::buffer_': class 'google::protobuf::internal::scoped_array<google::protobuf::uint8>'에서는 class 'google::protobuf::io::CopyingInputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
-  c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\io\zero_copy_stream_impl_lite.h(266): note: 'google::protobuf::internal::scoped_array<google::protobuf::uint8>' 선언을 참조하십시오.
-c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\io\zero_copy_stream_impl_lite.h(355): warning C4251: 'google::protobuf::io::CopyingOutputStreamAdaptor::buffer_': class 'google::protobuf::internal::scoped_array<google::protobuf::uint8>'에서는 class 'google::protobuf::io::CopyingOutputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
-  c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\io\zero_copy_stream_impl_lite.h(266): note: 'google::protobuf::internal::scoped_array<google::protobuf::uint8>' 선언을 참조하십시오.
-c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\descriptor.h(1631): warning C4251: 'google::protobuf::DescriptorPool::tables_': class 'google::protobuf::internal::scoped_ptr<google::protobuf::DescriptorPool::Tables>'에서는 class 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
-  c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\descriptor.h(1631): note: 'google::protobuf::internal::scoped_ptr<google::protobuf::DescriptorPool::Tables>' 선언을 참조하십시오.
-c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\descriptor.h(1636): warning C4251: 'google::protobuf::DescriptorPool::unused_import_track_files_': class 'std::set<std::string,std::less<_Kty>,std::allocator<_Ty>>'에서는 class 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\io\zero_copy_stream_impl_lite.h(242): warning C4251: 'google::protobuf::io::CopyingInputStreamAdaptor::buffer_': class 'google::protobuf::internal::scoped_array<google::protobuf::uint8>'에서는 class 'google::protobuf::io::CopyingInputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+  c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\io\zero_copy_stream_impl_lite.h(242): note: 'google::protobuf::internal::scoped_array<google::protobuf::uint8>' 선언을 참조하십시오.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\io\zero_copy_stream_impl_lite.h(331): warning C4251: 'google::protobuf::io::CopyingOutputStreamAdaptor::buffer_': class 'google::protobuf::internal::scoped_array<google::protobuf::uint8>'에서는 class 'google::protobuf::io::CopyingOutputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+  c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\io\zero_copy_stream_impl_lite.h(242): note: 'google::protobuf::internal::scoped_array<google::protobuf::uint8>' 선언을 참조하십시오.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\descriptor.h(1805): warning C4251: 'google::protobuf::DescriptorPool::tables_': class 'google::protobuf::internal::scoped_ptr<google::protobuf::DescriptorPool::Tables>'에서는 class 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+  c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\descriptor.h(1805): note: 'google::protobuf::internal::scoped_ptr<google::protobuf::DescriptorPool::Tables>' 선언을 참조하십시오.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\descriptor.h(1812): warning C4251: 'google::protobuf::DescriptorPool::unused_import_track_files_': class 'std::set<std::string,std::less<_Kty>,std::allocator<_Ty>>'에서는 class 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
           with
           [
               _Kty=std::string,
               _Ty=std::string
           ]
-  c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\descriptor.h(1636): note: 'std::set<std::string,std::less<_Kty>,std::allocator<_Ty>>' 선언을 참조하십시오.
+  c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\descriptor.h(1812): note: 'std::set<std::string,std::less<_Kty>,std::allocator<_Ty>>' 선언을 참조하십시오.
           with
           [
               _Kty=std::string,
               _Ty=std::string
           ]
-c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\arena.h(563): warning C4251: 'google::protobuf::Arena::lifecycle_id_generator_': class 'google::protobuf::internal::SequenceNumber'에서는 class 'google::protobuf::Arena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
-  c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\stubs\atomic_sequence_num.h(39): note: 'google::protobuf::internal::SequenceNumber' 선언을 참조하십시오.
-c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\arena.h(924): warning C4251: 'google::protobuf::Arena::options_': struct 'google::protobuf::ArenaOptions'에서는 class 'google::protobuf::Arena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
-  c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\arena.h(95): note: 'google::protobuf::ArenaOptions' 선언을 참조하십시오.
-c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\text_format.h(305): warning C4251: 'google::protobuf::TextFormat::Printer::default_field_value_printer_': class 'google::protobuf::internal::scoped_ptr<const google::protobuf::TextFormat::FieldValuePrinter>'에서는 class 'google::protobuf::TextFormat::Printer'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
-  c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\text_format.h(305): note: 'google::protobuf::internal::scoped_ptr<const google::protobuf::TextFormat::FieldValuePrinter>' 선언을 참조하십시오.
-c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\text_format.h(308): warning C4251: 'google::protobuf::TextFormat::Printer::custom_printers_': class 'std::map<const google::protobuf::FieldDescriptor *,const google::protobuf::TextFormat::FieldValuePrinter *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>'에서는 class 'google::protobuf::TextFormat::Printer'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\arena_impl.h(171): warning C4251: 'google::protobuf::internal::ArenaImpl::lifecycle_id_generator_': class 'google::protobuf::internal::SequenceNumber'에서는 class 'google::protobuf::internal::ArenaImpl'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+  c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\stubs\atomic_sequence_num.h(39): note: 'google::protobuf::internal::SequenceNumber' 선언을 참조하십시오.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\arena_impl.h(225): warning C4251: 'google::protobuf::internal::ArenaImpl::options_': struct 'google::protobuf::internal::ArenaImpl::Options'에서는 class 'google::protobuf::internal::ArenaImpl'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+  c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\arena_impl.h(65): note: 'google::protobuf::internal::ArenaImpl::Options' 선언을 참조하십시오.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\text_format.h(352): warning C4251: 'google::protobuf::TextFormat::Printer::default_field_value_printer_': class 'google::protobuf::internal::scoped_ptr<const google::protobuf::TextFormat::FastFieldValuePrinter>'에서는 class 'google::protobuf::TextFormat::Printer'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+  c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\text_format.h(352): note: 'google::protobuf::internal::scoped_ptr<const google::protobuf::TextFormat::FastFieldValuePrinter>' 선언을 참조하십시오.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\text_format.h(355): warning C4251: 'google::protobuf::TextFormat::Printer::custom_printers_': class 'std::map<const google::protobuf::FieldDescriptor *,const google::protobuf::TextFormat::FastFieldValuePrinter *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>'에서는 class 'google::protobuf::TextFormat::Printer'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
           with
           [
               _Kty=const google::protobuf::FieldDescriptor *,
-              _Ty=const google::protobuf::TextFormat::FieldValuePrinter *
+              _Ty=const google::protobuf::TextFormat::FastFieldValuePrinter *
           ]
-  c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\text_format.h(306): note: 'std::map<const google::protobuf::FieldDescriptor *,const google::protobuf::TextFormat::FieldValuePrinter *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>' 선언을 참조하십시오.
+  c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\text_format.h(353): note: 'std::map<const google::protobuf::FieldDescriptor *,const google::protobuf::TextFormat::FastFieldValuePrinter *,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>' 선언을 참조하십시오.
           with
           [
               _Kty=const google::protobuf::FieldDescriptor *,
-              _Ty=const google::protobuf::TextFormat::FieldValuePrinter *
+              _Ty=const google::protobuf::TextFormat::FastFieldValuePrinter *
           ]
-c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\text_format.h(404): warning C4251: 'google::protobuf::TextFormat::ParseInfoTree::locations_': class 'std::map<const google::protobuf::FieldDescriptor *,std::vector<google::protobuf::TextFormat::ParseLocation,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>'에서는 class 'google::protobuf::TextFormat::ParseInfoTree'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\text_format.h(451): warning C4251: 'google::protobuf::TextFormat::ParseInfoTree::locations_': class 'std::map<const google::protobuf::FieldDescriptor *,std::vector<google::protobuf::TextFormat::ParseLocation,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>'에서는 class 'google::protobuf::TextFormat::ParseInfoTree'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
           with
           [
               _Ty=google::protobuf::TextFormat::ParseLocation,
               _Kty=const google::protobuf::FieldDescriptor *
           ]
-  c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\text_format.h(396): note: 'std::map<const google::protobuf::FieldDescriptor *,std::vector<google::protobuf::TextFormat::ParseLocation,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>' 선언을 참조하십시오.
+  c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\text_format.h(443): note: 'std::map<const google::protobuf::FieldDescriptor *,std::vector<google::protobuf::TextFormat::ParseLocation,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>' 선언을 참조하십시오.
           with
           [
               _Ty=google::protobuf::TextFormat::ParseLocation,
               _Kty=const google::protobuf::FieldDescriptor *
           ]
-c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\text_format.h(405): warning C4251: 'google::protobuf::TextFormat::ParseInfoTree::nested_': class 'std::map<const google::protobuf::FieldDescriptor *,std::vector<google::protobuf::TextFormat::ParseInfoTree *,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>'에서는 class 'google::protobuf::TextFormat::ParseInfoTree'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\text_format.h(452): warning C4251: 'google::protobuf::TextFormat::ParseInfoTree::nested_': class 'std::map<const google::protobuf::FieldDescriptor *,std::vector<google::protobuf::TextFormat::ParseInfoTree *,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>'에서는 class 'google::protobuf::TextFormat::ParseInfoTree'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
           with
           [
               _Ty=google::protobuf::TextFormat::ParseInfoTree *,
               _Kty=const google::protobuf::FieldDescriptor *
           ]
-  c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\text_format.h(401): note: 'std::map<const google::protobuf::FieldDescriptor *,std::vector<google::protobuf::TextFormat::ParseInfoTree *,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>' 선언을 참조하십시오.
+  c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\text_format.h(448): note: 'std::map<const google::protobuf::FieldDescriptor *,std::vector<google::protobuf::TextFormat::ParseInfoTree *,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>' 선언을 참조하십시오.
           with
           [
               _Ty=google::protobuf::TextFormat::ParseInfoTree *,
               _Kty=const google::protobuf::FieldDescriptor *
           ]
-c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\extension_set.h(632): warning C4251: 'google::protobuf::internal::ExtensionSet::extensions_': class 'std::map<int,google::protobuf::internal::ExtensionSet::Extension,std::less<int>,std::allocator<std::pair<const _Kty,_Ty>>>'에서는 class 'google::protobuf::internal::ExtensionSet'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\io\coded_stream.h(869): warning C4800: 'google::protobuf::internal::Atomic32': 'true' 또는 'false'로 bool 값을 강제하고 있습니다(성능 경고).
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\wire_format_lite.h(863): warning C4146: 단항 빼기 연산자가 부호 없는 형식에 적용되었습니다. 결과는 역시 unsigned입니다.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\wire_format_lite.h(874): warning C4146: 단항 빼기 연산자가 부호 없는 형식에 적용되었습니다. 결과는 역시 unsigned입니다.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\generated_message_util.h(160): warning C4800: 'google::protobuf::uint32': 'true' 또는 'false'로 bool 값을 강제하고 있습니다(성능 경고).
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\metadata_lite.h(217): warning C4251: 'google::protobuf::internal::LiteUnknownFieldSetter::buffer_': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 class 'google::protobuf::internal::LiteUnknownFieldSetter'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\xstring(2633): note: 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\extension_set.h(640): warning C4251: 'google::protobuf::internal::ExtensionSet::extensions_': class 'std::map<int,google::protobuf::internal::ExtensionSet::Extension,std::less<int>,std::allocator<std::pair<const _Kty,_Ty>>>'에서는 class 'google::protobuf::internal::ExtensionSet'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 합니다.
           with
           [
               _Kty=int,
               _Ty=google::protobuf::internal::ExtensionSet::Extension
           ]
-  c:\users\songyikim\documents\protobuf-3.2.x\protobuf-3.2.x\src\google\protobuf\extension_set.h(561): note: 'std::map<int,google::protobuf::internal::ExtensionSet::Extension,std::less<int>,std::allocator<std::pair<const _Kty,_Ty>>>' 선언을 참조하십시오.
+  c:\users\song\documents\protobuf-cpp-3.5.1\protobuf-3.5.1\src\google\protobuf\extension_set.h(569): note: 'std::map<int,google::protobuf::internal::ExtensionSet::Extension,std::less<int>,std::allocator<std::pair<const _Kty,_Ty>>>' 선언을 참조하십시오.
           with
           [
               _Kty=int,
               _Ty=google::protobuf::internal::ExtensionSet::Extension
           ]
-c:\users\songyikim\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(84): warning C4101: 'buffer' :참조되지 않은 지역 변수입니다.
-c:\users\songyikim\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(662): warning C4474: 'printf' : 서식 문자열에 전달된 인수가 너무 많습니다.
-  c:\users\songyikim\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(662): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 1개 필요하지만 2개가 제공되었습니다.
-c:\users\songyikim\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(676): warning C4805: '==': 연산에 'BOOL' 형식과 'bool' 형식을 함께 사용하는 것은 안전하지 않습니다.
-  ChattingClient.vcxproj -> C:\Users\songyikim\Source\Repos\ChattingClient\ChattingClient\Debug\ChattingClient.exe
-  ChattingClient.vcxproj -> C:\Users\songyikim\Source\Repos\ChattingClient\ChattingClient\Debug\ChattingClient.pdb (Full PDB)
+c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(85): warning C4101: 'buffer' :참조되지 않은 지역 변수입니다.
+c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(697): warning C4474: 'printf' : 서식 문자열에 전달된 인수가 너무 많습니다.
+  c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(697): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 1개 필요하지만 2개가 제공되었습니다.
+c:\users\song\source\repos\chattingclient\chattingclient\chattingclient\chattingclient.cpp(711): warning C4805: '==': 연산에 'BOOL' 형식과 'bool' 형식을 함께 사용하는 것은 안전하지 않습니다.
+  ChattingClient.vcxproj -> C:\Users\song\Source\Repos\ChattingClient\ChattingClient\Debug\ChattingClient.exe
+  ChattingClient.vcxproj -> C:\Users\song\Source\Repos\ChattingClient\ChattingClient\Debug\ChattingClient.pdb (Full PDB)

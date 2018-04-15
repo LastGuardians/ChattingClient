@@ -66,6 +66,7 @@ public:
 
 	int			WsaRecv();
 	void		SendPacket(unsigned char *packet, int size);
+	void		SendLoginPacket(char* id, int len);
 	void		SendChannelMovePacket(int channel);
 	void		SendChannelChattingPacket(char* message, int channel, int len);
 	void		SendCreateRoomPacket(int room);
@@ -77,6 +78,7 @@ public:
 	void		CloseSocket();
 	void		err_display(char *msg, int err_no) const;
 	void		SetMenu();
+	void		LoginToServer();
 	inline bool	GetRecvStart() { return recv_start; }
 };
 
