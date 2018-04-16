@@ -49,7 +49,4 @@ enum MENU_SELECT
 
 //#include "C:\Users\song\Documents\Visual Studio 2015\Projects\ChattingServer\ChattingServer\protocol.h"
 #include "C:\Users\songyikim\Source\Repos\ChattingServer\ChattingServer\protocol.h"
-//#include "../../../ChattingServer/ChattingServer/protocol.h"
-#include "User.h"
 #include "ChattingClient.h"
-//#include "PacketHandler.h"
