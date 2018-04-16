@@ -23,6 +23,7 @@
 #define SERVERIP	"127.0.0.1"
 #define SERVERPORT	9000
 #define BUF_SIZE	1024
+#define MSG_SIZE	512
 
 using namespace google;
 
@@ -48,5 +49,5 @@ enum MENU_SELECT
 };
 
 //#include "C:\Users\song\Documents\Visual Studio 2015\Projects\ChattingServer\ChattingServer\protocol.h"
-#include "C:\Users\songyikim\Source\Repos\ChattingServer\ChattingServer\protocol.h"
+//#include "C:\Users\songyikim\Source\Repos\ChattingServer\ChattingServer\protocol.h"
 #include "ChattingClient.h"
