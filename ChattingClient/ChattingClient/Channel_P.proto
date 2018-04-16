@@ -1,8 +1,0 @@
-package Channel_P;
-
-message channel_chatting
-{
-	required int32 id		= 1;
-	required int32 target	= 2;
-	required string message = 3;
-}
