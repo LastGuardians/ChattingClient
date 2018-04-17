@@ -1,0 +1,8 @@
+C:/Users/songyikim/Documents/protobuf-3.2.x/protobuf-3.2.x/solution/CMakeFiles/protoc.dir
+C:/Users/songyikim/Documents/protobuf-3.2.x/protobuf-3.2.x/solution/CMakeFiles/libprotobuf-lite.dir
+C:/Users/songyikim/Documents/protobuf-3.2.x/protobuf-3.2.x/solution/CMakeFiles/libprotoc.dir
+C:/Users/songyikim/Documents/protobuf-3.2.x/protobuf-3.2.x/solution/CMakeFiles/libprotobuf.dir
+C:/Users/songyikim/Documents/protobuf-3.2.x/protobuf-3.2.x/solution/CMakeFiles/INSTALL.dir
+C:/Users/songyikim/Documents/protobuf-3.2.x/protobuf-3.2.x/solution/CMakeFiles/js_embed.dir
+C:/Users/songyikim/Documents/protobuf-3.2.x/protobuf-3.2.x/solution/CMakeFiles/ALL_BUILD.dir
+C:/Users/songyikim/Documents/protobuf-3.2.x/protobuf-3.2.x/solution/CMakeFiles/ZERO_CHECK.dir
