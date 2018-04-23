@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 BOOL	g_time = true;
-BOOL	menu_enable = false;
+bool	menu_enable = false;
 
 WSABUF	send_wsabuf;
 
@@ -82,7 +82,6 @@ void ChattingClient::RecvThread()
 {
 	int retval =0;
 	DWORD iobyte, ioflag = 0;
-	char buffer[BUF_SIZE];
 
 	while (true)
 	{
@@ -694,7 +693,7 @@ void ChattingClient::err_display(char *msg, int err_no) const
 		(LPTSTR)&lpMsgBuf,
 		0,
 		NULL);
-	printf("%s\n", msg, (LPCTSTR)lpMsgBuf);
+	printf("%s\n", msg);
 	printf("err_no : %d\n", err_no);
 	LocalFree(lpMsgBuf);
 }
