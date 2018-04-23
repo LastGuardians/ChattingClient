@@ -21,6 +21,7 @@ message User_Login
 	optional int32 user_pid			= 1;
 	optional string user_id			= 2;
 	optional string password		= 3;
+	optional bool success			= 4;
 }
 
 message Enter_Channel
