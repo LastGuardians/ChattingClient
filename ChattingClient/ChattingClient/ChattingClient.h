@@ -55,6 +55,7 @@ public:
 	void		PacketProcess(protobuf::io::CodedInputStream& input_stream);
 	void		ProcessPacket(unsigned char *packet);
 	void		ProcessEneterChannelPacket(const Protocols::Enter_Channel message) const;
+	void		ProcessLoginPacket(const Protocols::User_Login message) const;
 	void		ProcessCreateRoomPacket(const Protocols::Create_Room message) const;
 	bool		ProcessNotifyExistRoomPacket(const Protocols::Notify_Exist_Room message) const;
 	void		ProcessRoomListPacket(const Protocols::Room_List message) const;
@@ -66,7 +67,7 @@ public:
 
 	int			WsaRecv();
 	void		SendPacket(unsigned char *packet, int size);
-	void		SendLoginPacket(char* id, int len);
+	void		SendLoginPacket(char* id, int len) const;
 	void		SendChannelMovePacket(int channel);
 	void		SendChannelChattingPacket(char* message, int channel, int len);
 	void		SendCreateRoomPacket(int room);
@@ -78,7 +79,7 @@ public:
 	void		CloseSocket();
 	void		err_display(char *msg, int err_no) const;
 	void		SetMenu();
-	void		LoginToServer();
+	void		LoginToServer() const;
 	inline bool	GetRecvStart() { return recv_start; }
 };
 

@@ -96,7 +96,6 @@ void ChattingClient::RecvThread()
 		// 패킷 분석
 		PacketProcess(input_coded_stream);
 
-		menu_enable = true;
 		recv_start = true;
 	}
 
@@ -137,6 +136,13 @@ void ChattingClient::PacketProcess(protobuf::io::CodedInputStream & input_stream
 			ProcessEneterChannelPacket(message);
 			my_id = message.id();		// 클라 id 지정
 			channel_index = message.channelindex();
+			break;
+		}
+		case Protocols::USER_LOGIN:
+		{
+			Protocols::User_Login message;
+			message.ParseFromCodedStream(&payload_input_stream);
+			ProcessLoginPacket(message);
 			break;
 		}
 		case Protocols::NOTIFY_ENTER_ROOM:
@@ -256,9 +262,25 @@ void ChattingClient::ProcessEneterChannelPacket(const Protocols::Enter_Channel m
 	std::cout << message.channelindex() << "번 채널에 입장하셨습니다." << std::endl;
 	std::cout << "======================================" << std::endl;
 	printf("\n");
-
-	menu_enable = true;
+	
 	//SetMenu();
+}
+
+void ChattingClient::ProcessLoginPacket(const Protocols::User_Login message) const
+{
+	if (message.has_user_id() == true)
+	{
+		if (true == message.success())
+		{
+			std::cout << message.user_id() << " 계정 로그인 성공!" << std::endl;
+			menu_enable = true;
+		}
+		else
+		{
+			std::cout << message.user_id() << " 계정 로그인 실패!" << std::endl;
+			LoginToServer();
+		}
+	}
 }
 
 // 방 생성 패킷 처리
@@ -404,7 +426,7 @@ void ChattingClient::SendPacket(unsigned char *packet, int size)
 	}	
 }
 
-void ChattingClient::SendLoginPacket(char * id, int len)
+void ChattingClient::SendLoginPacket(char * id, int len) const
 {
 	DWORD iobyte = 0;
 
@@ -847,12 +869,13 @@ void ChattingClient::SetMenu()
 	}
 }
 
-void ChattingClient::LoginToServer()
+void ChattingClient::LoginToServer() const
 {
 	char send_msg[MSG_SIZE];
 
 	while (getchar() != '\n');
 	std::cout << "아이디를 입력하세요. ";
+	
 	std::cin.getline(send_msg, MSG_SIZE, '\n');
 	int login_len = strlen(send_msg);
 	SendLoginPacket(send_msg, login_len);
