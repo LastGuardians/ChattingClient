@@ -1,18 +1,15 @@
 #include "stdafx.h"
 
-BOOL	g_time = true;
-bool	menu_enable = false;
-
-WSABUF	send_wsabuf;
+static bool	menu_enable = false;
+WSABUF		send_wsabuf;
 
 ChattingClient::ChattingClient()
 {
-	send_wsabuf.buf = send_buffer;
+	send_wsabuf.buf = _send_buffer;
 	send_wsabuf.len = BUF_SIZE;
-	recv_wsabuf.buf = recv_buffer;
-	recv_wsabuf.len = BUF_SIZE;
+	_recv_wsabuf.buf = _recv_buffer;
+	_recv_wsabuf.len = BUF_SIZE;
 }
-
 
 ChattingClient::~ChattingClient()
 {
@@ -26,8 +23,8 @@ bool ChattingClient::ServerConnect()
 	WSADATA wsadata;
 	WSAStartup(MAKEWORD(2, 2), &wsadata);//윈속 초기화
 
-	g_socket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, NULL, WSA_FLAG_OVERLAPPED);
-	if (g_socket == INVALID_SOCKET) err_display("socket() Error! : ", WSAGetLastError());
+	_g_socket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, NULL, WSA_FLAG_OVERLAPPED);
+	if (_g_socket == INVALID_SOCKET) err_display("socket() Error! : ", WSAGetLastError());
 
 	//connect()
 	SOCKADDR_IN serveraddr;
@@ -36,22 +33,24 @@ bool ChattingClient::ServerConnect()
 	serveraddr.sin_addr.s_addr = inet_addr(SERVERIP);
 	serveraddr.sin_port = htons(SERVERPORT);
 	
-	retval = WSAConnect(g_socket, (SOCKADDR*)&serveraddr, sizeof(serveraddr), NULL, NULL, NULL, NULL);
+	retval = WSAConnect(_g_socket, (SOCKADDR*)&serveraddr, sizeof(serveraddr), NULL, NULL, NULL, NULL);
 	if (retval == SOCKET_ERROR)
 	{
 		err_display("connect() Error! : ", WSAGetLastError());
 		return false;
 	}
 	std::cout << "Server Connected Success!" << std::endl << std::endl;	
+	return true;
+}
 
+void ChattingClient::ThreadStart()
+{
 	std::thread recv_thread{ &ChattingClient::RecvThread, this };
-	LoginToServer();
-	std::thread send_thread{ &ChattingClient::SetMenu, this };
-	
+	//LoginToServer();
+	std::thread send_thread{ &ChattingClient::MenuStart, this };
+
 	recv_thread.join();
 	send_thread.join();
-
-	return true;
 }
 
 int ChattingClient::Recvn(SOCKET s, char* buf, int len, int flags)
@@ -85,21 +84,19 @@ void ChattingClient::RecvThread()
 
 	while (true)
 	{
-		retval = WSARecv(g_socket, &recv_wsabuf, 1, &iobyte, &ioflag, NULL, NULL);
+		retval = WSARecv(_g_socket, &_recv_wsabuf, 1, &iobyte, &ioflag, NULL, NULL);
 		if (retval == SOCKET_ERROR) {
 			err_display("recv() Error! : ", WSAGetLastError());
 			return;
 		}
-		protobuf::io::ArrayInputStream input_array_stream(recv_buffer, BUF_SIZE);
+		protobuf::io::ArrayInputStream input_array_stream(_recv_buffer, BUF_SIZE);
 		protobuf::io::CodedInputStream input_coded_stream(&input_array_stream);
 
 		// 패킷 분석
 		PacketProcess(input_coded_stream);
-
-		recv_start = true;
 	}
 
-	closesocket(g_socket);//소켓 닫기    
+	closesocket(_g_socket);//소켓 닫기    
 	WSACleanup();//윈속 해제화
 }
 
@@ -134,8 +131,8 @@ void ChattingClient::PacketProcess(protobuf::io::CodedInputStream & input_stream
 		
 			message.ParseFromCodedStream(&payload_input_stream);
 			ProcessEneterChannelPacket(message);
-			my_id = message.id();		// 클라 id 지정
-			channel_index = message.channelindex();
+			_my_id = message.id();		// 클라 id 지정
+			_channel_index = message.channelindex();
 			break;
 		}
 		case Protocols::USER_LOGIN:
@@ -167,7 +164,7 @@ void ChattingClient::PacketProcess(protobuf::io::CodedInputStream & input_stream
 		
 			message.ParseFromCodedStream(&payload_input_stream);
 			if(true == ProcessNotifyExistRoomPacket(message))
-				room_index = message.roomindex();
+				_room_index = message.roomindex();
 			break;
 		}
 		case Protocols::ROOM_CHATTING:
@@ -200,70 +197,21 @@ void ChattingClient::PacketProcess(protobuf::io::CodedInputStream & input_stream
 	
 			message.ParseFromCodedStream(&payload_input_stream);
 			if(true == ProcessEnterRoomPacket(message))	// 방이 있을 때만
-				room_index = message.roomindex();		// roomindex 지정
+				_room_index = message.roomindex();		// roomindex 지정
 			break;
 		}
 		}
 	}
 }
 
-// 수신 패킷 처리
-void ChattingClient::ProcessPacket(unsigned char *packet)
-{
-	//switch (packet[0])
-	//{
-	//case ENTER_CHANNEL: {
-	//	//ProcessEneterChannelPacket(packet);
-	//	break;
-	//}
-	//case CREATE_ROOM: {
-	//	ProcessCreateRoomPacket(packet);
-	//	break;
-	//}
-	//case CHANGE_CHANNEL: {
-	//	break;
-	//}
-	//case NOTIFY_ENTER_ROOM: {
-	//	ProcessNotifyEnterRoomPacket(packet);
-	//	break;
-	//}
-	//case NOTIFY_LEAVE_ROOM: {
-	//	ProcessNotifyLeaveRoomPacket(packet);
-	//	break;
-	//}
-	//case NOTIFY_EXIST_ROOM: {
-	//	ProcessNotifyExistRoomPacket(packet);
-	//	break;
-	//}
-	//case ROOM_CHATTING: {
-	//	ProcessRoomChatPacket(packet);
-	//	break;
-	//}
-	//case ENTER_ROOM: {
-	//	ProcessEnterRoomPacket(packet);
-	//	break;
-	//}
-	//case CHANNEL_CHATTING: {
-	//	ProcessChannelChatPacket(packet);
-	//	break;
-	//}
-	//case ROOM_LIST: {
-	//	ProcessRoomListPacket(packet);
-	//	break;
-	//}
-	//default:
-	//	break;
-	//}
-}
 
-void ChattingClient::ProcessEneterChannelPacket(const Protocols::Enter_Channel message) const 
+void ChattingClient::ProcessEneterChannelPacket(const Protocols::Enter_Channel message) 
 {
 	std::cout << "======================================" << std::endl;
 	std::cout << message.channelindex() << "번 채널에 입장하셨습니다." << std::endl;
-	std::cout << "======================================" << std::endl;
-	printf("\n");
-	
-	//SetMenu();
+	std::cout << "======================================" << std::endl << std::endl;
+	menu_enable = true;
+	//MenuStart();
 }
 
 void ChattingClient::ProcessLoginPacket(const Protocols::User_Login message) const
@@ -294,7 +242,7 @@ bool ChattingClient::ProcessNotifyExistRoomPacket(const Protocols::Notify_Exist_
 {
 	char enter_choice[5];
 
-	printf("\n");
+	std::cout << std::endl;
 	if (message.exist() == true)		// 이미 존재하는 방일 때 -> 방을 만들 수 없고 입장만 가능한 상태
 	{
 		std::cout << "[ " << message.roomindex() << "번 방이 이미 있습니다. ]" << std::endl;
@@ -334,7 +282,7 @@ void ChattingClient::ProcessRoomListPacket(const Protocols::Room_List message) c
 
 	for (int i = 0; i < message.userlist_size(); ++i)
 	{
-		if (message.userlist(i) == my_id)
+		if (message.userlist(i) == _my_id)
 		{
 			std::cout << "[ " << message.userlist(i) << "번 유저 ] - Me" << std::endl;
 		}
@@ -348,13 +296,13 @@ void ChattingClient::ProcessRoomListPacket(const Protocols::Room_List message) c
 
 void ChattingClient::ProcessRoomChatPacket(const Protocols::Room_Chatting message) const
 {
-	if (message.id() == my_id)
+	if (message.id() == _my_id)
 	{
 		menu_enable = true;
 		return;
 	}
 	printf("\n");
-	std::cout << "[" << room_index <<"번 방] [ " << message.id() << " ] 번 유저 : ";
+	std::cout << "[" << _room_index <<"번 방] [ " << message.id() << " ] 번 유저 : ";
 	
 	std::cout << message.message() << std::endl;
 	printf("\n");
@@ -366,27 +314,27 @@ bool ChattingClient::ProcessEnterRoomPacket(const Protocols::Enter_Room message)
 	printf("\n");
 	if (true == message.isenter())
 	{
-		std::cout << message.roomindex() << "번 방에 입장했습니다." << std::endl;		
+		std::cout << message.roomindex() << "번 방에 입장했습니다." << std::endl;
+		menu_enable = true;
 		return true;
 	}
 	else
 	{
 		std::cout << message.roomindex() << "번 방이 없습니다." << std::endl;
+		menu_enable = true;
 		return false;
 	}
-
-	menu_enable = true;
 }
 
 void ChattingClient::ProcessChannelChatPacket(const Protocols::Channel_Chatting message) const
 {
-	if (message.id() == my_id)
+	if (message.id() == _my_id)
 	{
 		menu_enable = true;
 		return;
 	}
 	printf("\n");
-	std::cout << "[" << channel_index <<" 채널] [ " << message.id() << " ] 번 유저 : ";
+	std::cout << "[" << _channel_index <<" 채널] [ " << message.id() << " ] 번 유저 : ";
 
 	std::cout << message.message() << std::endl;
 	printf("\n");
@@ -408,22 +356,7 @@ void ChattingClient::ProcessNotifyLeaveRoomPacket(const Protocols::Notify_Leave_
 int ChattingClient::WsaRecv()
 {
 	DWORD iobyte, ioflag = 0;
-	return WSARecv(g_socket, &recv_wsabuf, 1, &iobyte, &ioflag, NULL, NULL);
-}
-
-void ChattingClient::SendPacket(unsigned char *packet, int size)
-{
-	DWORD iobyte = 0;
-	int ioflag = 0;
-
-	//int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
-	int ret = send(g_socket, (char*)packet, size, ioflag);
-
-	if (SOCKET_ERROR == ret) {
-		if (ERROR_IO_PENDING != WSAGetLastError()) {
-			err_display("WSASend() Error! : ", WSAGetLastError());
-		}
-	}	
+	return WSARecv(_g_socket, &_recv_wsabuf, 1, &iobyte, &ioflag, NULL, NULL);
 }
 
 void ChattingClient::SendLoginPacket(char * id, int len) const
@@ -451,7 +384,7 @@ void ChattingClient::SendLoginPacket(char * id, int len) const
 
 	send_wsabuf.buf = resultBuf;
 	send_wsabuf.len = header.size;
-	int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
 
 	if (SOCKET_ERROR == ret) {
 		if (ERROR_IO_PENDING != WSAGetLastError()) {
@@ -486,7 +419,7 @@ void ChattingClient::SendChannelMovePacket(int channel)
 
 	send_wsabuf.buf = resultBuf;
 	send_wsabuf.len = header.size;
-	int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
 
 	if (SOCKET_ERROR == ret) {
 		if (ERROR_IO_PENDING != WSAGetLastError()) {
@@ -521,7 +454,7 @@ void ChattingClient::SendChannelChattingPacket(char * message, int channel, int 
 
 	send_wsabuf.buf = resultBuf;
 	send_wsabuf.len = header.size;
-	int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
 	
 	if (SOCKET_ERROR == ret) {
 		if (ERROR_IO_PENDING != WSAGetLastError()) {
@@ -556,7 +489,7 @@ void ChattingClient::SendCreateRoomPacket(int room)
 	DWORD iobyte = 0;
 	send_wsabuf.buf = resultBuf;
 	send_wsabuf.len = header.size;
-	int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
 	
 	if (SOCKET_ERROR == ret) {
 		if (ERROR_IO_PENDING != WSAGetLastError()) {
@@ -590,7 +523,7 @@ void ChattingClient::SendRoomUserListPacket(int room)
 	DWORD iobyte = 0;
 	send_wsabuf.buf = resultBuf;
 	send_wsabuf.len = header.size;
-	int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
 
 	if (SOCKET_ERROR == ret) {
 		if (ERROR_IO_PENDING != WSAGetLastError()) {
@@ -624,7 +557,7 @@ void ChattingClient::SendRoomChattingPacket(char* message, int room, int len)
 
 	send_wsabuf.buf = resultBuf;
 	send_wsabuf.len = header.size;
-	int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
 
 	if (SOCKET_ERROR == ret) {
 		if (ERROR_IO_PENDING != WSAGetLastError()) {
@@ -657,7 +590,7 @@ void ChattingClient::SendEnterRoomPacket(int room) const
 	DWORD iobyte = 0;
 	send_wsabuf.buf = resultBuf;
 	send_wsabuf.len = header.size;
-	int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
 
 	if (SOCKET_ERROR == ret) {
 		if (ERROR_IO_PENDING != WSAGetLastError()) {
@@ -690,7 +623,7 @@ void ChattingClient::SendLeaveRoomPacket(int room)
 	DWORD iobyte = 0;
 	send_wsabuf.buf = resultBuf;
 	send_wsabuf.len = header.size;
-	int ret = WSASend(g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
 
 	if (SOCKET_ERROR == ret) {
 		if (ERROR_IO_PENDING != WSAGetLastError()) {
@@ -701,7 +634,7 @@ void ChattingClient::SendLeaveRoomPacket(int room)
 
 void ChattingClient::CloseSocket()
 {
-	closesocket(g_socket);
+	closesocket(_g_socket);
 }
 
 void ChattingClient::err_display(char *msg, int err_no) const
@@ -721,12 +654,9 @@ void ChattingClient::err_display(char *msg, int err_no) const
 }
 
 
-void ChattingClient::SetMenu()
+void ChattingClient::MenuStart()
 {
 	int choice = 0;
-	int room = 0;
-	char send_msg[MSG_SIZE];
-
 	while (1)
 	{
 		if (menu_enable == true)
@@ -753,112 +683,28 @@ void ChattingClient::SetMenu()
 			switch (choice)
 			{
 			case CHANNEL_MOVE:
-				system("cls");
-				int channel;
-				std::cout << std::endl;
-				if (0 != room_index)
-				{
-					std::cout << "방에서 퇴장한 후에 채널을 이동하세요." << std::endl;
-					break;
-				}
-				while (getchar() != '\n');
-				std::cout << "몇 번 채널로 이동하시겠습니까? (0 ~ 4 선택) : " << std::endl;
-				std::cin >> channel;
-				if (channel > 4 || channel < 0) {
-					printf("채널을 잘못 선택했습니다.\n\n");
-					menu_enable = true;
-					break;
-				}
-				SendChannelMovePacket(channel);
-				std::cout << channel << "번 채널로 이동했습니다." << std::endl << std::endl;
-				channel_index = channel;
+				MenuChannelMove();
 				break;
 			case ROOM_CREATE:
-			{
-				system("cls");
-				if (0 != room_index)
-				{
-					std::cout << "이미 방에 입장 중입니다." << std::endl;
-					break;
-				}
-				while (getchar() != '\n');
-				printf("몇 번 방을 만드시겠습니까? \n");
-				std::cin >> room;
-				if (room < 1)
-				{
-					std::cout << "방은 1번 부터 생성 가능합니다." << std::endl << std::endl;
-					break;
-				}
-				menu_enable = false;
-				SendCreateRoomPacket(room);				
+				MenuRoomCreate();
 				break;
-			}
-			case ENTER_ROOM_INIT:
-				if (0 != room_index)
-				{
-					std::cout << "이미 방에 입장 중입니다." << std::endl << std::endl;
-					break;
-				}
-				system("cls");
-				while (getchar() != '\n');
-				std::cout << "몇 번 방으로 입장하시겠습니까? ";
-				std::cin >> room;
-				menu_enable = false;
-				SendEnterRoomPacket(room);
+			case ENTER_ROOM_MENU:
+				MenuEnterRoom();
 				break;
 			case IN_ROOM_USER_LIST:
-				system("cls");
-				if (0 == room_index)
-				{
-					std::cout << "아직 방에 입장하지 않았습니다." << std::endl << std::endl;
-					break;
-				}
-				menu_enable = false;
-				SendRoomUserListPacket(room_index);
+				MenuRoomUserList();
 				break;
 			case CHANNEL_CHATTING_MENU:
-			{
-				while (getchar() != '\n');
-				fputs("보낼 메시지 : ", stdout);
-				//getchar();								// 입력할 때까지 대기
-				std::cin.getline(send_msg, MSG_SIZE, '\n');
-				
-				int chat_len = strlen(send_msg);
-				menu_enable = false;
-				SendChannelChattingPacket(send_msg, channel_index, chat_len);
+				MenuChannelChatting();
 				break;
-			}
-			break;
 			case ROOM_CHATTING_MENU:
-			{
-				char send_msg[MSG_SIZE];
-				if (0 == room_index)
-				{
-					std::cout << "아직 방에 입장하지 않았습니다." << std::endl << std::endl;
-					break;
-				}
-				while (getchar() != '\n');
-				std::cout << "보낼 메시지 : ";
-				std::cin.getline(send_msg, MSG_SIZE, '\n');
-				int chat_len = strlen(send_msg);
-				menu_enable = false;
-				SendRoomChattingPacket(send_msg, room, chat_len);
+				MenuRoomChatting();
 				break;
-			}
-			break;
 			case LEAVE_ROOM_MENU:
-				system("cls");
-				if (0 == room_index)
-				{
-					std::cout << "아직 방에 입장하지 않았습니다." << std::endl << std::endl;
-					break;
-				}
-				std::cout << room_index <<" 번 방에서 퇴장합니다." << std::endl << std::endl;
-				SendLeaveRoomPacket(room_index);
-				room_index = 0;
+				MenuLeaveRoom();
 				break;
 			case EXIT_SERVER:
-				closesocket(g_socket);
+				closesocket(_g_socket);
 				exit(-1);
 				break;
 			default:
@@ -867,6 +713,121 @@ void ChattingClient::SetMenu()
 			}
 		}
 	}
+}
+
+void ChattingClient::MenuChannelMove()
+{
+	system("cls");
+	int channel;
+	std::cout << std::endl;
+	if (0 != _room_index)
+	{
+		std::cout << "방에서 퇴장한 후에 채널을 이동하세요." << std::endl;
+		return;
+	}
+	while (getchar() != '\n');
+	std::cout << "몇 번 채널로 이동하시겠습니까? (0 ~ 4 선택) : " << std::endl;
+	std::cin >> channel;
+	if (channel > 4 || channel < 0) {
+		printf("채널을 잘못 선택했습니다.\n\n");
+		menu_enable = true;
+		return;
+	}
+	SendChannelMovePacket(channel);
+	std::cout << channel << "번 채널로 이동했습니다." << std::endl << std::endl;
+	_channel_index = channel;
+}
+
+void ChattingClient::MenuRoomCreate()
+{
+	int room;
+	system("cls");
+	if (0 != _room_index)
+	{
+		std::cout << "이미 방에 입장 중입니다." << std::endl;
+		return;
+	}
+	while (getchar() != '\n');
+	printf("몇 번 방을 만드시겠습니까? \n");
+	std::cin >> room;
+	if (room < 1)
+	{
+		std::cout << "방은 1번 부터 생성 가능합니다." << std::endl << std::endl;
+		return;
+	}
+	menu_enable = false;
+	SendCreateRoomPacket(room);
+}
+
+void ChattingClient::MenuEnterRoom()
+{
+	int room;
+	if (0 != _room_index)
+	{
+		std::cout << "이미 방에 입장 중입니다." << std::endl << std::endl;
+		return;
+	}
+	system("cls");
+	while (getchar() != '\n');
+	std::cout << "몇 번 방으로 입장하시겠습니까? ";
+	std::cin >> room;
+	menu_enable = false;
+	SendEnterRoomPacket(room);
+}
+
+void ChattingClient::MenuRoomUserList()
+{
+	system("cls");
+	if (0 == _room_index)
+	{
+		std::cout << "아직 방에 입장하지 않았습니다." << std::endl << std::endl;
+		return;
+	}
+	menu_enable = false;
+	SendRoomUserListPacket(_room_index);
+}
+
+void ChattingClient::MenuChannelChatting()
+{
+	char send_msg[MSG_SIZE];
+
+	while (getchar() != '\n');
+	fputs("보낼 메시지 : ", stdout);
+	//getchar();								// 입력할 때까지 대기
+	std::cin.getline(send_msg, MSG_SIZE, '\n');
+
+	int chat_len = strlen(send_msg);
+	menu_enable = false;
+	SendChannelChattingPacket(send_msg, _channel_index, chat_len);
+}
+
+void ChattingClient::MenuRoomChatting()
+{
+	char send_msg[MSG_SIZE];
+	if (0 == _room_index)
+	{
+		std::cout << "아직 방에 입장하지 않았습니다." << std::endl << std::endl;
+		return;
+	}
+	while (getchar() != '\n');
+	std::cout << "보낼 메시지 : ";
+	std::cin.getline(send_msg, MSG_SIZE, '\n');
+	int chat_len = strlen(send_msg);
+	menu_enable = false;
+	SendRoomChattingPacket(send_msg, _room_index, chat_len);
+}
+
+void ChattingClient::MenuLeaveRoom()
+{
+	system("cls");
+	if (0 == _room_index)
+	{
+		std::cout << "아직 방에 입장하지 않았습니다." << std::endl << std::endl;
+		return;
+	}
+	std::cout << _room_index << " 번 방에서 퇴장합니다." << std::endl << std::endl;
+	SendLeaveRoomPacket(_room_index);
+	_room_index = 0;
 }
 
 void ChattingClient::LoginToServer() const

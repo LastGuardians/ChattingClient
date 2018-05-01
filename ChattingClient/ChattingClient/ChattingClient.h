@@ -30,31 +30,23 @@ public:
 	virtual ~ChattingClient();
 
 private:
-	SOCKET			g_socket;
-	char 			send_buffer[BUF_SIZE];
-	WSABUF			recv_wsabuf;
-	char 			recv_buffer[BUF_SIZE];
+	SOCKET			_g_socket;
+	char 			_send_buffer[BUF_SIZE];
+	WSABUF			_recv_wsabuf;
+	char 			_recv_buffer[BUF_SIZE];
 
-	int				my_id;
-	int				channel_index;
-	int				room_index = 0;
-
-	HANDLE			handle;
-	HANDLE			m_hiocp = { 0 };
-	bool			m_b_server_shut_down = { false };
-	bool			server_connected = { false };
-	bool			isQuit = { false };
-	bool			recv_start = { false };
-
+	int				_my_id;
+	int				_channel_index;
+	int				_room_index = 0;
 
 public:
 	bool		ServerConnect();
+	void		ThreadStart();
 	void		RecvThread();
 	int			Recvn(SOCKET s, char* buf, int len, int flags);
 
 	void		PacketProcess(protobuf::io::CodedInputStream& input_stream);
-	void		ProcessPacket(unsigned char *packet);
-	void		ProcessEneterChannelPacket(const Protocols::Enter_Channel message) const;
+	void		ProcessEneterChannelPacket(const Protocols::Enter_Channel message);
 	void		ProcessLoginPacket(const Protocols::User_Login message) const;
 	void		ProcessCreateRoomPacket(const Protocols::Create_Room message) const;
 	bool		ProcessNotifyExistRoomPacket(const Protocols::Notify_Exist_Room message) const;
@@ -66,7 +58,6 @@ public:
 	void		ProcessNotifyLeaveRoomPacket(const Protocols::Notify_Leave_Room message) const;
 
 	int			WsaRecv();
-	void		SendPacket(unsigned char *packet, int size);
 	void		SendLoginPacket(char* id, int len) const;
 	void		SendChannelMovePacket(int channel);
 	void		SendChannelChattingPacket(char* message, int channel, int len);
@@ -76,10 +67,17 @@ public:
 	void		SendEnterRoomPacket(int room) const;
 	void		SendLeaveRoomPacket(int room);
 
+	void		MenuStart();
+	void		MenuChannelMove();
+	void		MenuRoomCreate();
+	void		MenuEnterRoom();
+	void		MenuRoomUserList();
+	void		MenuChannelChatting();
+	void		MenuRoomChatting();
+	void		MenuLeaveRoom();
+
 	void		CloseSocket();
-	void		err_display(char *msg, int err_no) const;
-	void		SetMenu();
+	void		err_display(char *msg, int err_no) const;	
 	void		LoginToServer() const;
-	inline bool	GetRecvStart() { return recv_start; }
 };
 
