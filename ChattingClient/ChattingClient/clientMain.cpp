@@ -4,8 +4,8 @@ int main()
 {
 	ChattingClient client;
 
-	bool opend = client.ServerConnect();
-	if (true == opend)
+	bool opened = client.ServerConnect();
+	if (true == opened)
 	{
 		client.ThreadStart();
 	}
