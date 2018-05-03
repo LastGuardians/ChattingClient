@@ -201,55 +201,6 @@ void ChattingClient::PacketProcess(protobuf::io::CodedInputStream & input_stream
 	}
 }
 
-// 수신 패킷 처리
-void ChattingClient::ProcessPacket(unsigned char *packet)
-{
-	//switch (packet[0])
-	//{
-	//case ENTER_CHANNEL: {
-	//	//ProcessEneterChannelPacket(packet);
-	//	break;
-	//}
-	//case CREATE_ROOM: {
-	//	ProcessCreateRoomPacket(packet);
-	//	break;
-	//}
-	//case CHANGE_CHANNEL: {
-	//	break;
-	//}
-	//case NOTIFY_ENTER_ROOM: {
-	//	ProcessNotifyEnterRoomPacket(packet);
-	//	break;
-	//}
-	//case NOTIFY_LEAVE_ROOM: {
-	//	ProcessNotifyLeaveRoomPacket(packet);
-	//	break;
-	//}
-	//case NOTIFY_EXIST_ROOM: {
-	//	ProcessNotifyExistRoomPacket(packet);
-	//	break;
-	//}
-	//case ROOM_CHATTING: {
-	//	ProcessRoomChatPacket(packet);
-	//	break;
-	//}
-	//case ENTER_ROOM: {
-	//	ProcessEnterRoomPacket(packet);
-	//	break;
-	//}
-	//case CHANNEL_CHATTING: {
-	//	ProcessChannelChatPacket(packet);
-	//	break;
-	//}
-	//case ROOM_LIST: {
-	//	ProcessRoomListPacket(packet);
-	//	break;
-	//}
-	//default:
-	//	break;
-	//}
-}
-
 void ChattingClient::ProcessEneterChannelPacket(const Protocols::Enter_Channel message) const 
 {
 	std::cout << "======================================" << std::endl;

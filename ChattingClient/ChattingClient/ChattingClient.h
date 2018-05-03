@@ -53,7 +53,6 @@ public:
 	int			Recvn(SOCKET s, char* buf, int len, int flags);
 
 	void		PacketProcess(protobuf::io::CodedInputStream& input_stream);
-	void		ProcessPacket(unsigned char *packet);
 	void		ProcessEneterChannelPacket(const Protocols::Enter_Channel message) const;
 	void		ProcessCreateRoomPacket(const Protocols::Create_Room message) const;
 	bool		ProcessNotifyExistRoomPacket(const Protocols::Notify_Exist_Room message) const;
