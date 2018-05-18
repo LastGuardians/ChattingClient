@@ -135,13 +135,13 @@ void ChattingClient::PacketProcess(protobuf::io::CodedInputStream & input_stream
 			_channel_index = message.channelindex();
 			break;
 		}
-		case Protocols::USER_LOGIN:
+	/*	case Protocols::USER_LOGIN:
 		{
 			Protocols::User_Login message;
 			message.ParseFromCodedStream(&payload_input_stream);
 			ProcessLoginPacket(message);
 			break;
-		}
+		}*/
 		case Protocols::NOTIFY_ENTER_ROOM:
 		{
 			Protocols::Notify_Enter_Room message;
@@ -214,22 +214,22 @@ void ChattingClient::ProcessEneterChannelPacket(const Protocols::Enter_Channel m
 	//MenuStart();
 }
 
-void ChattingClient::ProcessLoginPacket(const Protocols::User_Login message) const
-{
-	if (message.has_user_id() == true)
-	{
-		if (true == message.success())
-		{
-			std::cout << message.user_id() << " 계정 로그인 성공!" << std::endl;
-			menu_enable = true;
-		}
-		else
-		{
-			std::cout << message.user_id() << " 계정 로그인 실패!" << std::endl;
-			LoginToServer();
-		}
-	}
-}
+//void ChattingClient::ProcessLoginPacket(const Protocols::User_Login message) const
+//{
+//	if (message.has_user_id() == true)
+//	{
+//		if (true == message.success())
+//		{
+//			std::cout << message.user_id() << " 계정 로그인 성공!" << std::endl;
+//			menu_enable = true;
+//		}
+//		else
+//		{
+//			std::cout << message.user_id() << " 계정 로그인 실패!" << std::endl;
+//			LoginToServer();
+//		}
+//	}
+//}
 
 // 방 생성 패킷 처리
 void ChattingClient::ProcessCreateRoomPacket(const Protocols::Create_Room message) const
@@ -359,39 +359,39 @@ int ChattingClient::WsaRecv()
 	return WSARecv(_g_socket, &_recv_wsabuf, 1, &iobyte, &ioflag, NULL, NULL);
 }
 
-void ChattingClient::SendLoginPacket(char * id, int len) const
-{
-	DWORD iobyte = 0;
-
-	Protocols::User_Login login;
-	login.set_user_id(id);
-
-	size_t bufSize = login.ByteSizeLong();
-	char* outputBuf = new char[bufSize];
-
-	// 헤더 생성
-	MessageHeader header;
-	header.size = MessageHeaderSize + bufSize;
-	header.type = Protocols::USER_LOGIN;
-	char* header_seri = reinterpret_cast<char*>(&header);
-
-	int rtn = login.SerializeToArray(outputBuf, bufSize);
-
-	// 전송 버퍼 생성
-	char* resultBuf = new char[bufSize + MessageHeaderSize];
-	memcpy(resultBuf, header_seri, MessageHeaderSize);
-	memcpy(resultBuf + MessageHeaderSize, outputBuf, bufSize);
-
-	send_wsabuf.buf = resultBuf;
-	send_wsabuf.len = header.size;
-	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
-
-	if (SOCKET_ERROR == ret) {
-		if (ERROR_IO_PENDING != WSAGetLastError()) {
-			err_display("WSASend() Error! : ", WSAGetLastError());
-		}
-	}
-}
+//void ChattingClient::SendLoginPacket(char * id, int len) const
+//{
+//	DWORD iobyte = 0;
+//
+//	Protocols::User_Login login;
+//	login.set_user_id(id);
+//
+//	size_t bufSize = login.ByteSizeLong();
+//	char* outputBuf = new char[bufSize];
+//
+//	// 헤더 생성
+//	MessageHeader header;
+//	header.size = MessageHeaderSize + bufSize;
+//	header.type = Protocols::USER_LOGIN;
+//	char* header_seri = reinterpret_cast<char*>(&header);
+//
+//	int rtn = login.SerializeToArray(outputBuf, bufSize);
+//
+//	// 전송 버퍼 생성
+//	char* resultBuf = new char[bufSize + MessageHeaderSize];
+//	memcpy(resultBuf, header_seri, MessageHeaderSize);
+//	memcpy(resultBuf + MessageHeaderSize, outputBuf, bufSize);
+//
+//	send_wsabuf.buf = resultBuf;
+//	send_wsabuf.len = header.size;
+//	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
+//
+//	if (SOCKET_ERROR == ret) {
+//		if (ERROR_IO_PENDING != WSAGetLastError()) {
+//			err_display("WSASend() Error! : ", WSAGetLastError());
+//		}
+//	}
+//}
 
 // 채널 이동 패킷 전송
 void ChattingClient::SendChannelMovePacket(int channel)
@@ -603,6 +603,7 @@ void ChattingClient::SendLeaveRoomPacket(int room)
 {
 	Protocols::Leave_Room leave_room;
 	leave_room.set_roomindex(room);
+	leave_room.set_type(Protocols::LEAVE_ROOM);
 
 	size_t bufSize = leave_room.ByteSizeLong();
 	char* outputBuf = new char[bufSize];
@@ -839,5 +840,5 @@ void ChattingClient::LoginToServer() const
 	
 	std::cin.getline(send_msg, MSG_SIZE, '\n');
 	int login_len = strlen(send_msg);
-	SendLoginPacket(send_msg, login_len);
+	//SendLoginPacket(send_msg, login_len);
 }

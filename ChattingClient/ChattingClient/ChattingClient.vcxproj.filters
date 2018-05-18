@@ -37,7 +37,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\ChattingServer\ChattingServer\Protocols.proto">
+    <None Include="Protocols.proto">
       <Filter>소스 파일</Filter>
     </None>
   </ItemGroup>

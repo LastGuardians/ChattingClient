@@ -3,7 +3,6 @@ package Protocols;
 enum PacketType
 {
 	ENTER_CHANNEL		= 1;
-	USER_LOGIN			= 2;
 	CREATE_ROOM			= 3;
 	CHANGE_CHANNEL		= 4;
 	NOTIFY_ENTER_ROOM	= 5;
@@ -16,42 +15,39 @@ enum PacketType
 	LEAVE_ROOM			= 12;
 }
 
-message User_Login
-{
-	optional int32 user_pid			= 1;
-	optional string user_id			= 2;
-	optional string password		= 3;
-	optional bool success			= 4;
-}
-
 message Enter_Channel
 {
 	optional int32 id				= 1;
 	required int32 channelIndex		= 2;
+	optional int32 type				= 3;
 }
 
 message Change_Channel
 {
 	optional int32 id				= 1;
 	required int32 channelIndex		= 2;
+	optional int32 type				= 3;
 }
 
 message Channel_Chatting
 {
 	optional int32 id				= 1;
 	required string message			= 2;
+	optional int32 type				= 3;
 }
 
 message Create_Room
 {
 	optional int32 id			= 1;
 	required int32 roomIndex	= 2;
+	optional int32 type			= 3;
 }
 
 message Room_Chatting
 {
 	optional int32 id			= 1;
 	required string message		= 2;
+	optional int32 type			= 3;
 }
 
 message Enter_Room
@@ -59,12 +55,14 @@ message Enter_Room
 	optional int32 id			= 1;
 	required int32 roomIndex	= 2;
 	optional bool  isEnter		= 3;
+	optional int32 type			= 4;
 }
 
 message Leave_Room
 {
 	optional int32 id			= 1;
 	required int32 roomIndex	= 2;
+	optional int32 type			= 3;
 }
 
 message Notify_Exist_Room
@@ -72,16 +70,19 @@ message Notify_Exist_Room
 	optional int32 id			= 1;
 	required int32 roomIndex	= 2;
 	optional bool  exist		= 3;
+	optional int32 type			= 4;
 }
 
 message Notify_Enter_Room
 {
 	optional int32 id		= 1;
+	optional int32 type		= 2;
 }
 
 message Notify_Leave_Room
 {
 	optional int32 id		= 1;
+	optional int32 type		= 2;
 }
 
 message Room_List
@@ -90,4 +91,5 @@ message Room_List
 	repeated int32 userList		= 2;
 	required int32 roomIndex	= 3;
 	optional int32 userCount	= 4;
+	optional int32 type			= 5;
 }

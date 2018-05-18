@@ -47,7 +47,7 @@ public:
 
 	void		PacketProcess(protobuf::io::CodedInputStream& input_stream);
 	void		ProcessEneterChannelPacket(const Protocols::Enter_Channel message);
-	void		ProcessLoginPacket(const Protocols::User_Login message) const;
+	//void		ProcessLoginPacket(const Protocols::User_Login message) const;
 	void		ProcessCreateRoomPacket(const Protocols::Create_Room message) const;
 	bool		ProcessNotifyExistRoomPacket(const Protocols::Notify_Exist_Room message) const;
 	void		ProcessRoomListPacket(const Protocols::Room_List message) const;
@@ -58,7 +58,7 @@ public:
 	void		ProcessNotifyLeaveRoomPacket(const Protocols::Notify_Leave_Room message) const;
 
 	int			WsaRecv();
-	void		SendLoginPacket(char* id, int len) const;
+	//void		SendLoginPacket(char* id, int len) const;
 	void		SendChannelMovePacket(int channel);
 	void		SendChannelChattingPacket(char* message, int channel, int len);
 	void		SendCreateRoomPacket(int room);
