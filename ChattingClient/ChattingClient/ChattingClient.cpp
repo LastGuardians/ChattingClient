@@ -250,7 +250,11 @@ bool ChattingClient::ProcessNotifyExistRoomPacket(const Protocols::Notify_Exist_
 		std::cin >> enter_choice;
 
 		if (0 == strcmp(enter_choice, "Y")) {				// 채팅방 입장 O
-			SendEnterRoomPacket(message.roomindex());
+			Protocols::Enter_Room enter_room;
+			enter_room.set_roomindex(message.roomindex());
+			enter_room.set_type(Protocols::ENTER_ROOM);
+
+			SendPacketAssemble(enter_room.type(), enter_room);
 			menu_enable = true;
 			return true;
 		}
@@ -393,132 +397,21 @@ int ChattingClient::WsaRecv()
 //	}
 //}
 
-// 채널 이동 패킷 전송
-void ChattingClient::SendChannelMovePacket(int channel)
+void ChattingClient::SendPacketAssemble(int type, google::protobuf::Message & msg) const
 {
-	DWORD iobyte = 0;
-
-	Protocols::Change_Channel change;
-	change.set_channelindex(channel);
-
-	size_t bufSize = change.ByteSizeLong();
-	char* outputBuf = new char[bufSize];
+	size_t bufSize = msg.ByteSizeLong();
+	char resultBuf[100];
+	int size = bufSize + MessageHeaderSize;
 
 	// 헤더 생성
 	MessageHeader header;
 	header.size = MessageHeaderSize + bufSize;
-	header.type = Protocols::CHANGE_CHANNEL;
+	header.type = type;
+
 	char* header_seri = reinterpret_cast<char*>(&header);
 
-	int rtn = change.SerializeToArray(outputBuf, bufSize);
-
-	// 전송 버퍼 생성
-	char* resultBuf = new char[bufSize + MessageHeaderSize];
 	memcpy(resultBuf, header_seri, MessageHeaderSize);
-	memcpy(resultBuf + MessageHeaderSize, outputBuf, bufSize);
-
-	send_wsabuf.buf = resultBuf;
-	send_wsabuf.len = header.size;
-	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
-
-	if (SOCKET_ERROR == ret) {
-		if (ERROR_IO_PENDING != WSAGetLastError()) {
-			err_display("WSASend() Error! : ", WSAGetLastError());
-		}
-	}
-	menu_enable = true;
-}
-
-void ChattingClient::SendChannelChattingPacket(char * message, int channel, int len)
-{
-	DWORD iobyte = 0;
-
-	Protocols::Channel_Chatting chatting;
-	chatting.set_message(message);
-
-	size_t bufSize = chatting.ByteSizeLong();
-	char* outputBuf = new char[bufSize];
-
-	// 헤더 생성
-	MessageHeader header;
-	header.size = MessageHeaderSize + bufSize;
-	header.type = Protocols::CHANNEL_CHATTING;
-	char* header_seri = reinterpret_cast<char*>(&header);
-
-	int rtn = chatting.SerializeToArray(outputBuf, bufSize);
-
-	// 전송 버퍼 생성
-	char* resultBuf = new char[bufSize + MessageHeaderSize];
-	memcpy(resultBuf, header_seri, MessageHeaderSize);
-	memcpy(resultBuf + MessageHeaderSize, outputBuf, bufSize);
-
-	send_wsabuf.buf = resultBuf;
-	send_wsabuf.len = header.size;
-	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
-	
-	if (SOCKET_ERROR == ret) {
-		if (ERROR_IO_PENDING != WSAGetLastError()) {
-			err_display("WSASend() Error! : ", WSAGetLastError());
-		}
-	}
-	menu_enable = true;
-}
-
-// 방 생성 패킷 전송
-void ChattingClient::SendCreateRoomPacket(int room)
-{
-	Protocols::Create_Room create_room;
-	create_room.set_roomindex(room);
-
-	size_t bufSize = create_room.ByteSizeLong();
-	char* outputBuf = new char[bufSize];
-
-	// 헤더 생성
-	MessageHeader header;
-	header.size = MessageHeaderSize + bufSize;
-	header.type = Protocols::CREATE_ROOM;
-	char* header_seri = reinterpret_cast<char*>(&header);
-
-	int rtn = create_room.SerializeToArray(outputBuf, bufSize);
-
-	// 전송 버퍼 생성
-	char* resultBuf = new char[bufSize + MessageHeaderSize];
-	memcpy(resultBuf, header_seri, MessageHeaderSize);
-	memcpy(resultBuf + MessageHeaderSize, outputBuf, bufSize);
-
-	DWORD iobyte = 0;
-	send_wsabuf.buf = resultBuf;
-	send_wsabuf.len = header.size;
-	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
-	
-	if (SOCKET_ERROR == ret) {
-		if (ERROR_IO_PENDING != WSAGetLastError()) {
-			err_display("WSASend() Error! : ", WSAGetLastError());
-		}
-	}
-}
-
-
-void ChattingClient::SendRoomUserListPacket(int room)
-{
-	Protocols::Room_List room_list;
-	room_list.set_roomindex(room);
-
-	size_t bufSize = room_list.ByteSizeLong();
-	char* outputBuf = new char[bufSize];
-
-	// 헤더 생성
-	MessageHeader header;
-	header.size = MessageHeaderSize + bufSize;
-	header.type = Protocols::ROOM_LIST;
-	char* header_seri = reinterpret_cast<char*>(&header);
-
-	int rtn = room_list.SerializeToArray(outputBuf, bufSize);
-
-	// 전송 버퍼 생성
-	char* resultBuf = new char[bufSize + MessageHeaderSize];
-	memcpy(resultBuf, header_seri, MessageHeaderSize);
-	memcpy(resultBuf + MessageHeaderSize, outputBuf, bufSize);
+	msg.SerializeToArray(resultBuf + MessageHeaderSize, bufSize);
 
 	DWORD iobyte = 0;
 	send_wsabuf.buf = resultBuf;
@@ -530,108 +423,9 @@ void ChattingClient::SendRoomUserListPacket(int room)
 			err_display("WSASend() Error! : ", WSAGetLastError());
 		}
 	}
+	//menu_enable = true;
 }
 
-void ChattingClient::SendRoomChattingPacket(char* message, int room, int len)
-{
-	DWORD iobyte = 0;
-
-	Protocols::Room_Chatting chatting;
-	chatting.set_message(message);
-
-	size_t bufSize = chatting.ByteSizeLong();
-	char* outputBuf = new char[bufSize];
-
-	// 헤더 생성
-	MessageHeader header;
-	header.size = MessageHeaderSize + bufSize;
-	header.type = Protocols::ROOM_CHATTING;
-	char* header_seri = reinterpret_cast<char*>(&header);
-
-	int rtn = chatting.SerializeToArray(outputBuf, bufSize);
-
-	// 전송 버퍼 생성
-	char* resultBuf = new char[bufSize + MessageHeaderSize];
-	memcpy(resultBuf, header_seri, MessageHeaderSize);
-	memcpy(resultBuf + MessageHeaderSize, outputBuf, bufSize);
-
-	send_wsabuf.buf = resultBuf;
-	send_wsabuf.len = header.size;
-	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
-
-	if (SOCKET_ERROR == ret) {
-		if (ERROR_IO_PENDING != WSAGetLastError()) {
-			err_display("WSASend() Error! : ", WSAGetLastError());
-		}
-	}
-}
-
-void ChattingClient::SendEnterRoomPacket(int room) const
-{
-	Protocols::Enter_Room enter_room;
-	enter_room.set_roomindex(room);
-
-	size_t bufSize = enter_room.ByteSizeLong();
-	char* outputBuf = new char[bufSize];
-
-	// 헤더 생성
-	MessageHeader header;
-	header.size = MessageHeaderSize + bufSize;
-	header.type = Protocols::ENTER_ROOM;
-	char* header_seri = reinterpret_cast<char*>(&header);
-
-	int rtn = enter_room.SerializeToArray(outputBuf, bufSize);
-
-	// 전송 버퍼 생성
-	char* resultBuf = new char[bufSize + MessageHeaderSize];
-	memcpy(resultBuf, header_seri, MessageHeaderSize);
-	memcpy(resultBuf + MessageHeaderSize, outputBuf, bufSize);
-
-	DWORD iobyte = 0;
-	send_wsabuf.buf = resultBuf;
-	send_wsabuf.len = header.size;
-	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
-
-	if (SOCKET_ERROR == ret) {
-		if (ERROR_IO_PENDING != WSAGetLastError()) {
-			err_display("WSASend() Error! : ", WSAGetLastError());
-		}
-	}
-}
-
-void ChattingClient::SendLeaveRoomPacket(int room)
-{
-	Protocols::Leave_Room leave_room;
-	leave_room.set_roomindex(room);
-	leave_room.set_type(Protocols::LEAVE_ROOM);
-
-	size_t bufSize = leave_room.ByteSizeLong();
-	char* outputBuf = new char[bufSize];
-
-	// 헤더 생성
-	MessageHeader header;
-	header.size = MessageHeaderSize + bufSize;
-	header.type = Protocols::LEAVE_ROOM;
-	char* header_seri = reinterpret_cast<char*>(&header);
-
-	int rtn = leave_room.SerializeToArray(outputBuf, bufSize);
-
-	// 전송 버퍼 생성
-	char* resultBuf = new char[bufSize + MessageHeaderSize];
-	memcpy(resultBuf, header_seri, MessageHeaderSize);
-	memcpy(resultBuf + MessageHeaderSize, outputBuf, bufSize);
-
-	DWORD iobyte = 0;
-	send_wsabuf.buf = resultBuf;
-	send_wsabuf.len = header.size;
-	int ret = WSASend(_g_socket, &send_wsabuf, 1, &iobyte, 0, NULL, NULL);
-
-	if (SOCKET_ERROR == ret) {
-		if (ERROR_IO_PENDING != WSAGetLastError()) {
-			err_display("WSASend() Error! : ", WSAGetLastError());
-		}
-	}
-}
 
 void ChattingClient::CloseSocket()
 {
@@ -734,7 +528,13 @@ void ChattingClient::MenuChannelMove()
 		menu_enable = true;
 		return;
 	}
-	SendChannelMovePacket(channel);
+
+	Protocols::Change_Channel change;
+	change.set_channelindex(channel);
+	change.set_type(Protocols::CHANGE_CHANNEL);
+
+	SendPacketAssemble(change.type(), change);
+	//SendChannelMovePacket(channel);
 	std::cout << channel << "번 채널로 이동했습니다." << std::endl << std::endl;
 	_channel_index = channel;
 }
@@ -757,7 +557,13 @@ void ChattingClient::MenuRoomCreate()
 		return;
 	}
 	menu_enable = false;
-	SendCreateRoomPacket(room);
+
+	Protocols::Create_Room create_room;
+	create_room.set_roomindex(room);
+	create_room.set_type(Protocols::CREATE_ROOM);
+
+	SendPacketAssemble(create_room.type(), create_room);
+	//SendCreateRoomPacket(room);
 }
 
 void ChattingClient::MenuEnterRoom()
@@ -773,7 +579,13 @@ void ChattingClient::MenuEnterRoom()
 	std::cout << "몇 번 방으로 입장하시겠습니까? ";
 	std::cin >> room;
 	menu_enable = false;
-	SendEnterRoomPacket(room);
+
+	Protocols::Enter_Room enter_room;
+	enter_room.set_roomindex(room);
+	enter_room.set_type(Protocols::ENTER_ROOM);
+
+	SendPacketAssemble(enter_room.type(), enter_room);
+	//SendEnterRoomPacket(room);
 }
 
 void ChattingClient::MenuRoomUserList()
@@ -785,7 +597,13 @@ void ChattingClient::MenuRoomUserList()
 		return;
 	}
 	menu_enable = false;
-	SendRoomUserListPacket(_room_index);
+
+	Protocols::Room_List room_list;
+	room_list.set_roomindex(_room_index);
+	room_list.set_type(Protocols::ROOM_LIST);
+
+	SendPacketAssemble(room_list.type(), room_list);
+	//SendRoomUserListPacket(_room_index);
 }
 
 void ChattingClient::MenuChannelChatting()
@@ -799,7 +617,13 @@ void ChattingClient::MenuChannelChatting()
 
 	int chat_len = strlen(send_msg);
 	menu_enable = false;
-	SendChannelChattingPacket(send_msg, _channel_index, chat_len);
+
+	Protocols::Channel_Chatting chatting;
+	chatting.set_message(send_msg);
+	chatting.set_type(Protocols::CHANNEL_CHATTING);
+
+	SendPacketAssemble(chatting.type(), chatting);
+	//SendChannelChattingPacket(send_msg, _channel_index, chat_len);
 }
 
 void ChattingClient::MenuRoomChatting()
@@ -815,7 +639,13 @@ void ChattingClient::MenuRoomChatting()
 	std::cin.getline(send_msg, MSG_SIZE, '\n');
 	int chat_len = strlen(send_msg);
 	menu_enable = false;
-	SendRoomChattingPacket(send_msg, _room_index, chat_len);
+
+	Protocols::Room_Chatting chatting;
+	chatting.set_message(send_msg);
+	chatting.set_type(Protocols::ROOM_CHATTING);
+
+	SendPacketAssemble(chatting.type(), chatting);
+	//SendRoomChattingPacket(send_msg, _room_index, chat_len);
 }
 
 void ChattingClient::MenuLeaveRoom()
@@ -827,7 +657,13 @@ void ChattingClient::MenuLeaveRoom()
 		return;
 	}
 	std::cout << _room_index << " 번 방에서 퇴장합니다." << std::endl << std::endl;
-	SendLeaveRoomPacket(_room_index);
+
+	Protocols::Leave_Room leave_room;
+	leave_room.set_roomindex(_room_index);
+	leave_room.set_type(Protocols::LEAVE_ROOM);
+
+	SendPacketAssemble(leave_room.type(), leave_room);
+	//SendLeaveRoomPacket(_room_index);
 	_room_index = 0;
 }
 

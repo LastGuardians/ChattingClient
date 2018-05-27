@@ -18,8 +18,8 @@ struct RecvBuffInfo {
 // 패킷 헤더
 struct MessageHeader
 {
-	Protocols::PacketType	type;
-	protobuf::uint32		size;
+	int					type;
+	protobuf::uint32	size;
 };
 const int MessageHeaderSize = sizeof(MessageHeader);
 
@@ -59,13 +59,7 @@ public:
 
 	int			WsaRecv();
 	//void		SendLoginPacket(char* id, int len) const;
-	void		SendChannelMovePacket(int channel);
-	void		SendChannelChattingPacket(char* message, int channel, int len);
-	void		SendCreateRoomPacket(int room);
-	void		SendRoomUserListPacket(int room);
-	void		SendRoomChattingPacket(char* message, int room, int len);
-	void		SendEnterRoomPacket(int room) const;
-	void		SendLeaveRoomPacket(int room);
+	void		SendPacketAssemble(int type, google::protobuf::Message& msg) const;
 
 	void		MenuStart();
 	void		MenuChannelMove();
